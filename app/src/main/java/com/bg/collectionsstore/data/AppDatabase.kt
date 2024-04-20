@@ -2,6 +2,8 @@ package com.bg.collectionsstore.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.bg.collectionsstore.data.Currency.Currency
+import com.bg.collectionsstore.data.Currency.CurrencyDao
 import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Family.FamilyDao
 import com.bg.collectionsstore.data.Item.Item
@@ -18,7 +20,8 @@ import com.bg.collectionsstore.data.User.UserDao
 @Database(
     entities = [Family::class, Item::class,
         PosPrinter::class, PosReceipt::class,
-        ThirdParty::class, User::class],
+        ThirdParty::class, User::class,
+        Currency::class],
     version = 1,
     exportSchema = false
 )
@@ -31,4 +34,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val posPrinterDao: PosPrinterDao
     abstract val thirdPartyDao: ThirdPartyDao
     abstract val userDao: UserDao
+    abstract val currencyDao: CurrencyDao
 }
