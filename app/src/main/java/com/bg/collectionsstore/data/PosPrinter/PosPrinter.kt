@@ -8,9 +8,14 @@ import java.util.Date
 @Entity(tableName = "pos_printer")
 data class PosPrinter(
     /**
-     * Room database POS Printer ID
+     * Room database autoGenerate ID
      * */
     @PrimaryKey(autoGenerate = true)
+    var id: Long? = null,
+
+    /**
+     * POS Printer Id
+     * */
     @ColumnInfo(name = "pp_id")
     var posPrinterId: String? = null,
 

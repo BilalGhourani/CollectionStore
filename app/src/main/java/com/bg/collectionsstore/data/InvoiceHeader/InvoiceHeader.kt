@@ -8,9 +8,14 @@ import java.util.Date
 @Entity(tableName = "in_hinvoice")
 data class InvoiceHeader(
     /**
-     * Room database Invoice Header ID
+     * Room database autoGenerate ID
      * */
     @PrimaryKey(autoGenerate = true)
+    var id: Long? = null,
+
+    /**
+     * Invoice Header Id
+     * */
     @ColumnInfo(name = "hi_id")
     var invoiceHeadId: String? = null,
 
@@ -24,7 +29,7 @@ data class InvoiceHeader(
      * Invoice Header Date
      * */
     @ColumnInfo(name = "hi_date")
-    var invoiceHeadDate: Date? = Date(),
+    var invoiceHeadDate: String? = null,
 
     /**
      * Invoice Header Order Number
@@ -150,7 +155,7 @@ data class InvoiceHeader(
      * Invoice Header timestamp
      * */
     @ColumnInfo(name = "hi_timestamp")
-    var invoicHeadTimeStamp: Date? = null,
+    var invoicHeadTimeStamp: String? = null,
 
     /**
      * Invoice Header userstamp

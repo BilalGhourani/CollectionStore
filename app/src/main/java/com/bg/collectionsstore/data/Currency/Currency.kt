@@ -7,9 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "currency")
 data class Currency(
     /**
-     * Room database Currency ID
+     * Room database autoGenerate ID
      * */
     @PrimaryKey(autoGenerate = true)
+    var id: Long? = null,
+
+    /**
+     * Currency Id
+     * */
     @ColumnInfo(name = "cur_id")
     var currencyId: String? = null,
 
@@ -50,4 +55,4 @@ data class Currency(
     @ColumnInfo(name = "cur_rate")
     var currencyRate: Double,
 
-)
+    )

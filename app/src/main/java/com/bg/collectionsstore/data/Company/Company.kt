@@ -7,9 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "company")
 data class Company(
     /**
-     * Room database Company ID
+     * Room database autoGenerate ID
      * */
     @PrimaryKey(autoGenerate = true)
+    var id: Long? = null,
+
+    /**
+     * Company id
+     * */
     @ColumnInfo(name = "cmp_id")
     var companyId: String? = null,
 

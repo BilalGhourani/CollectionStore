@@ -7,9 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "set_users")
 data class User(
     /**
-     * Room database Family ID
+     * Room database autoGenerate ID
      * */
     @PrimaryKey(autoGenerate = true)
+    var id: Long? = null,
+
+    /**
+     * User Id
+     * */
     @ColumnInfo(name = "usr_id")
     var userId: String? = null,
 

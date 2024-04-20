@@ -1,9 +1,7 @@
 package com.bg.collectionsstore.ui.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,9 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.bg.collectionsstore.ui.home.components.ItemCell
 import com.bg.collectionsstore.ui.theme.Blue
-import com.bg.collectionsstore.ui.theme.Grey
 import com.bg.collectionsstore.utils.Utils
 
 @Composable

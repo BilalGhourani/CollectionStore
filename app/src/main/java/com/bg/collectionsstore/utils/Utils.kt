@@ -16,22 +16,21 @@ object Utils {
     )
 
     val categories = mutableListOf(
-        Family(1, "Chicken"),
-        Family(2, "Meat"),
-        Family(3, "Salad"),
-        Family(4, "Veg"),
-        Family(5, "Other")
+        Family(1,"1", "Chicken"),
+        Family(2,"2", "Meat"),
+        Family(3,"3", "Salad"),
+        Family(4,"4", "Veg"),
+        Family(5,"5", "Other")
     )
 
     val listOfItems = mutableListOf(
-        Item(1, "Chicken", "100", "DOLLAR"),
-        Item(2, "Meat", "100", "DOLLAR"),
-        Item(3, "Salad", "100", "DOLLAR"),
-        Item(4, "Veg", "100", "DOLLAR"),
-        Item(5, "Other", "100", "DOLLAR"),
-        Item(5, "Other1", "100", "DOLLAR"),
-        Item(5, "Other2", "100", "DOLLAR"),
-        Item(5, "Other3", "100", "DOLLAR"),
+        Item(itemId = "1", itemName = "Chicken", itemUnitPrice = 100.0),
+        Item(itemId = "2", itemName = "Salad", itemUnitPrice = 100.0),
+        Item(itemId = "3", itemName = "Veg", itemUnitPrice = 100.0),
+        Item(itemId = "4", itemName = "Other", itemUnitPrice = 100.0),
+        Item(itemId = "5", itemName = "Other1", itemUnitPrice = 100.0),
+        Item(itemId = "6", itemName = "Other2", itemUnitPrice = 100.0),
+        Item(itemId = "7", itemName = "Other3", itemUnitPrice = 100.0),
     )
 
     fun calculateColumns(cellWidth: Dp, screenWidth: Dp): Int {

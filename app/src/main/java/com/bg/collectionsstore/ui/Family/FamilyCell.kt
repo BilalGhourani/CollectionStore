@@ -1,4 +1,4 @@
-package com.bg.collectionsstore.ui.home.components
+package com.bg.collectionsstore.ui.Family
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,7 +26,8 @@ fun CategoryCell(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.padding(horizontal = 5.dp)
+        modifier = modifier
+            .padding(horizontal = 5.dp)
             .background(color = Color.Transparent)
     ) {
         Box( // Use a Box to achieve content alignment
@@ -43,7 +44,7 @@ fun CategoryCell(
             contentAlignment = Alignment.Center // Center content within the Box
         ) {
             Text(
-                text = family.familyName,
+                text = family.familyName ?: "BlaBla",
                 color = Color.White,
                 modifier = Modifier
                     .padding(16.dp),
@@ -57,6 +58,6 @@ fun CategoryCell(
 @Composable
 fun CategoryCellPreview() {
     CollectionsStoreTheme {
-        CategoryCell(Family("1", "Bilal","1"), true)
+        CategoryCell(Family(1, "1", "Bilal", "1"), true)
     }
 }

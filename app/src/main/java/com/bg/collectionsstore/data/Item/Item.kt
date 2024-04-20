@@ -8,9 +8,14 @@ import java.util.Date
 @Entity(tableName = "st_item")
 data class Item(
     /**
-     * Room database Item ID
+     * Room database autoGenerate ID
      * */
     @PrimaryKey(autoGenerate = true)
+    var id: Long? = null,
+
+    /**
+     * Item Id
+     * */
     @ColumnInfo(name = "it_id")
     var itemId: String? = null,
 
@@ -96,6 +101,6 @@ data class Item(
      * Item timestamp
      * */
     @ColumnInfo(name = "it_timestamp")
-    var itemTimeStamp: Date? = null,
+    var itemTimeStamp: String? = null,
 
     )

@@ -8,9 +8,14 @@ import java.util.Date
 @Entity(tableName = "thirdparty")
 data class ThirdParty(
     /**
-     * Room database Family ID
+     * Room database autoGenerate ID
      * */
     @PrimaryKey(autoGenerate = true)
+    var id: Long? = null,
+
+    /**
+     * Third Party Id
+     * */
     @ColumnInfo(name = "tp_id")
     var thirdPartyId: String? = null,
 
@@ -18,55 +23,55 @@ data class ThirdParty(
      * Third Party name
      * */
     @ColumnInfo(name = "tp_name")
-    var thirdPartyName: String,
+    var thirdPartyName: String? = null,
 
     /**
      * Third Party fn
      * */
     @ColumnInfo(name = "tp_fn")
-    var thirdPartyFn: String,
+    var thirdPartyFn: String? = null,
 
     /**
      * Third Party company id
      * */
     @ColumnInfo(name = "tp_cmp_id")
-    var thirdPartyCompId: String,
+    var thirdPartyCompId: String? = null,
 
 
     /**
      * Third Party phone 1
      * */
     @ColumnInfo(name = "tp_phone1")
-    var thirdPartyPhone1: String,
+    var thirdPartyPhone1: String? = null,
 
     /**
      * Third Party phone 2
      * */
     @ColumnInfo(name = "tp_phone2")
-    var thirdPartyPhone2: String,
+    var thirdPartyPhone2: String? = null,
 
     /**
      * Third Party address
      * */
     @ColumnInfo(name = "tp_address")
-    var thirdPartyAddress: String,
+    var thirdPartyAddress: String? = null,
 
     /**
      * Third Party date
      * */
     @ColumnInfo(name = "tp_date")
-    var thirdPartyDate: String,
+    var thirdPartyDate: String? = null,
 
     /**
      * Third Party time stamp
      * */
     @ColumnInfo(name = "tp_timestamp")
-    var thirdPartyTimeStamp: Date,
+    var thirdPartyTimeStamp: String? = null,
 
     /**
      * Third Party user stamp
      * */
     @ColumnInfo(name = "tp_userstamp")
-    var thirdPartyUserStamp: String,
+    var thirdPartyUserStamp: String? = null,
 
     )

@@ -7,9 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "st_family")
 data class Family(
     /**
-     * Room database Family ID
+     * Room database autoGenerate ID
      * */
     @PrimaryKey(autoGenerate = true)
+    var id: Long? = null,
+
+    /**
+     * Family Id
+     * */
     @ColumnInfo(name = "fa_id")
     var familyId: String? = null,
 
@@ -17,13 +22,13 @@ data class Family(
      * Family name
      * */
     @ColumnInfo(name = "fa_name")
-    var familyName: String,
+    var familyName: String? = null,
 
 
     /**
      * related Company Id
      * */
     @ColumnInfo(name = "fa_cmp_id")
-    var familyCompanyId: String,
+    var familyCompanyId: String? = null,
 
     )

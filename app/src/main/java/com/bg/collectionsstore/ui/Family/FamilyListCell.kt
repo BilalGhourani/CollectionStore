@@ -1,4 +1,4 @@
-package com.bg.collectionsstore.ui.home.components
+package com.bg.collectionsstore.ui.Family
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
