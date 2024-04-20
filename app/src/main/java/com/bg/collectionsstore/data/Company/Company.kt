@@ -77,7 +77,7 @@ data class Company(
      * Company SS
      * */
     @ColumnInfo(name = "cmp_ss")
-    var companySS: Int? = null,
+    var companySS: Boolean = false,
 
     /**
      * Company Country

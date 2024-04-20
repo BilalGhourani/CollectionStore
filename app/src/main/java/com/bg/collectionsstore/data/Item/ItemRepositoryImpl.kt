@@ -21,11 +21,11 @@ class ItemRepositoryImpl(
         return itemDao.getItemById(id)
     }
 
-    override fun getAllItemes(): Flow<List<Item>> {
+    override fun getAllItems(): Flow<List<Item>> {
         return itemDao.getAllItems()
     }
 
-    override fun searchForItemes(key: String): Flow<List<Item>> {
+    override fun searchForItems(key: String): Flow<List<Item>> {
         return itemDao.searchForItems(key)
     }
 }

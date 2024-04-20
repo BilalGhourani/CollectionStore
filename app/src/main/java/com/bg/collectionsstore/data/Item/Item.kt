@@ -72,7 +72,7 @@ data class Item(
      * related Item POS id
      * */
     @ColumnInfo(name = "it_pos")
-    var itemPos: Int? = null,
+    var itemPos: Boolean = false,
 
     /**
      * Item button color
@@ -97,16 +97,5 @@ data class Item(
      * */
     @ColumnInfo(name = "it_timestamp")
     var itemTimeStamp: Date? = null,
-
-
-
-
-
-
-
-
-
-
-
 
     )

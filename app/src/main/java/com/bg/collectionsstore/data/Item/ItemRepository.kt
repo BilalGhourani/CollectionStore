@@ -19,9 +19,9 @@ interface ItemRepository {
     suspend fun getItemById(id: String): Item
 
     // Get all Items logs as stream.
-    fun getAllItemes(): Flow<List<Item>>
+    fun getAllItems(): Flow<List<Item>>
 
     // Get searched Items logs as stream.
-    fun searchForItemes(key: String): Flow<List<Item>>
+    fun searchForItems(key: String): Flow<List<Item>>
 
 }

@@ -8,6 +8,10 @@ import com.bg.collectionsstore.data.Currency.Currency
 import com.bg.collectionsstore.data.Currency.CurrencyDao
 import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Family.FamilyDao
+import com.bg.collectionsstore.data.Invoice.Invoice
+import com.bg.collectionsstore.data.Invoice.InvoiceDao
+import com.bg.collectionsstore.data.InvoiceHeader.InvoiceHeader
+import com.bg.collectionsstore.data.InvoiceHeader.InvoiceHeaderDao
 import com.bg.collectionsstore.data.Item.Item
 import com.bg.collectionsstore.data.Item.ItemDao
 import com.bg.collectionsstore.data.PosPrinter.PosPrinter
@@ -23,7 +27,8 @@ import com.bg.collectionsstore.data.User.UserDao
     entities = [Family::class, Item::class,
         PosPrinter::class, PosReceipt::class,
         ThirdParty::class, User::class,
-        Currency::class, Company::class],
+        Currency::class, Company::class,
+        Invoice::class, InvoiceHeader::class],
     version = 1,
     exportSchema = false
 )
@@ -38,4 +43,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val userDao: UserDao
     abstract val currencyDao: CurrencyDao
     abstract val companyDao: CompanyDao
+    abstract val invoiceDao: InvoiceDao
+    abstract val invoiceHeaderDao: InvoiceHeaderDao
 }
