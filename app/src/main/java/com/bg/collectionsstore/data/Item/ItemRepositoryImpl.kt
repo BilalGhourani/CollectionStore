@@ -17,11 +17,15 @@ class ItemRepositoryImpl(
         itemDao.update(item)
     }
 
-    override suspend fun getItemById(id: Long): Item {
+    override suspend fun getItemById(id: String): Item {
         return itemDao.getItemById(id)
     }
 
     override fun getAllItemes(): Flow<List<Item>> {
         return itemDao.getAllItems()
+    }
+
+    override fun searchForItemes(key: String): Flow<List<Item>> {
+        return itemDao.searchForItems(key)
     }
 }

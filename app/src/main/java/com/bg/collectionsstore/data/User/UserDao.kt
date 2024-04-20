@@ -1,4 +1,4 @@
-package com.bg.collectionsstore.data.Category
+package com.bg.collectionsstore.data.User
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -9,26 +9,30 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface CategoryDao {
+interface UserDao {
 
     // suspend is a coroutine keyword,
     // instead of having a callback we can just wait till insert is done
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(category: Category)
+    suspend fun insert(user: User)
 
     // Delete a call log
     @Delete
-    suspend fun delete(category: Category)
+    suspend fun delete(user: User)
 
     // Update a call log
     @Update
-    suspend fun update(category: Category)
+    suspend fun update(user: User)
 
     // Get call log by it's ID
-    @Query("SELECT * FROM Category WHERE categoryId = :id")
-    suspend fun getCategoryById(id: Long): Category
+    @Query("SELECT * FROM set_users WHERE usr_id = :id")
+    suspend fun getUserById(id: String): User
 
     // Get all call logs as stream.
-    @Query("SELECT * FROM `Category`")
-    fun getAllCategories(): Flow<List<Category>>
+    @Query("SELECT * FROM `set_users`")
+    fun getAllUsers(): Flow<List<User>>
+
+    // Get all call logs as stream.
+    @Query("SELECT * FROM `set_users` WHERE usr_name LIKE '%' || :key || '%'")
+    fun searchForUsers(key: String): Flow<List<User>>
 }

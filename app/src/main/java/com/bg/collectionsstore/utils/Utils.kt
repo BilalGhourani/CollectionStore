@@ -1,17 +1,26 @@
 package com.bg.collectionsstore.utils
 
 import androidx.compose.ui.unit.Dp
-import com.bg.collectionsstore.data.Category.Category
+import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Item.Item
 
 object Utils {
 
+    val homeSections = mutableListOf(
+        "Company",
+        "User",
+        "Third Party",
+        "Item",
+        "POS",
+        "Table"
+    )
+
     val categories = mutableListOf(
-        Category(1, "Chicken"),
-        Category(2, "Meat"),
-        Category(3, "Salad"),
-        Category(4, "Veg"),
-        Category(5, "Other")
+        Family(1, "Chicken"),
+        Family(2, "Meat"),
+        Family(3, "Salad"),
+        Family(4, "Veg"),
+        Family(5, "Other")
     )
 
     val listOfItems = mutableListOf(

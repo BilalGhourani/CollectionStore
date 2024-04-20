@@ -14,15 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bg.collectionsstore.data.Category.Category
+import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
 import com.bg.collectionsstore.utils.Utils
 
 
 @Composable
 fun CategoryListCell(
-    categories: MutableList<Category>,
-    onClick: (Category) -> Unit = {},
+    categories: MutableList<Family>,
+    onClick: (Family) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectionState by remember { mutableStateOf(0) }
@@ -39,7 +39,7 @@ fun CategoryListCell(
     ) {
         categories.forEachIndexed { index, category ->
             CategoryCell(
-                category = category,
+                family = category,
                 selected = selectionState == index,
                 Modifier
                     .clickable {

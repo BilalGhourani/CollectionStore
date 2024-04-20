@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.bg.collectionsstore.data.Family.Family
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,19 +17,23 @@ interface ItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)
 
-    // Delete a call log
+    // Delete an Item
     @Delete
     suspend fun delete(item: Item)
 
-    // Update a call log
+    // Update an Item
     @Update
     suspend fun update(item: Item)
 
-    // Get call log by it's ID
-    @Query("SELECT * FROM Item WHERE itemId = :id")
-    suspend fun getItemById(id: Long): Item
+    // Get Item by it's ID
+    @Query("SELECT * FROM st_item WHERE it_id = :id")
+    suspend fun getItemById(id: String): Item
 
-    // Get all call logs as stream.
-    @Query("SELECT * FROM `Item`")
+    // Get all Items as stream.
+    @Query("SELECT * FROM `st_item`")
     fun getAllItems(): Flow<List<Item>>
+
+    // Get searched Items as stream.
+    @Query("SELECT * FROM `st_item` WHERE it_name LIKE '%' || :key || '%'")
+    fun searchForItems(key: String): Flow<List<Item>>
 }

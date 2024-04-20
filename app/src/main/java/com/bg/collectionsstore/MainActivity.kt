@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AuthNavGraph(
                         navController = navController,
-                        startDestination = "CollectionsView"
+                        startDestination = "HomeView"
                     )
 
                 }

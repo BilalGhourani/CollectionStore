@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bg.collectionsstore.ui.home.components.CollectionsView
-import com.bg.collectionsstore.ui.home.components.HomeView
+import com.bg.collectionsstore.ui.home.HomeView
 import com.bg.collectionsstore.ui.login.LoginView
 import com.bg.collectionsstore.ui.theme.White
 
