@@ -89,6 +89,13 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.6.1")
 
+    //firebase
+    implementation ("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
+    api ("com.google.firebase:firebase-messaging:23.4.1")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+
+    implementation("com.google.firebase:firebase-firestore")
+
     // Glide images
     implementation (libs.compose.glide)
 
