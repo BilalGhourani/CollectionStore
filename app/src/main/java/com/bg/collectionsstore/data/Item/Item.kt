@@ -8,7 +8,7 @@ import java.util.Date
 @Entity(tableName = "st_item")
 data class Item(
     /**
-     * Room database CallLog ID
+     * Room database Item ID
      * */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "it_id")
