@@ -13,7 +13,7 @@ data class ThirdParty(
      * */
     @PrimaryKey
     @ColumnInfo(name = "tp_id")
-    var thirdPartyId: String? = null,
+    var thirdPartyId: String,
 
     /**
      * Third Party name

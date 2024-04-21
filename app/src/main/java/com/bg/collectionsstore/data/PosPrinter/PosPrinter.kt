@@ -13,7 +13,7 @@ data class PosPrinter(
      * */
     @PrimaryKey
     @ColumnInfo(name = "pp_id")
-    var posPrinterId: String? = null,
+    var posPrinterId: String,
 
     /**
      * related  POS Printer type company id

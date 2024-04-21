@@ -74,6 +74,6 @@ fun ItemCell(item: Item, modifier: Modifier = Modifier) {
 @Composable
 fun ItemCellPreview() {
     CollectionsStoreTheme {
-        ItemCell(Item(1,"1", "CHICKEN", itemUnitPrice = 100.0))
+        ItemCell(Item("1", "CHICKEN", itemUnitPrice = 100.0))
     }
 }

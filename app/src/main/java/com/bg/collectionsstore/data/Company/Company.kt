@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bg.collectionsstore.data.DataModel
+import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "company")
 data class Company(
@@ -12,7 +13,7 @@ data class Company(
      * */
     @PrimaryKey
     @ColumnInfo(name = "cmp_id")
-    var companyId: String? = null,
+    var companyId: String,
 
     /**
      * Company name

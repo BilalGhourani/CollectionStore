@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bg.collectionsstore.data.DataModel
+import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "st_family")
 data class Family(
@@ -12,7 +13,7 @@ data class Family(
      * */
     @PrimaryKey
     @ColumnInfo(name = "fa_id")
-    var familyId: String? = null,
+    var familyId: String,
 
     /**
      * Family name
@@ -27,8 +28,8 @@ data class Family(
     @ColumnInfo(name = "fa_cmp_id")
     var familyCompanyId: String? = null,
 
-    ): DataModel() {
+    ) : DataModel() {
     override fun getName(): String {
-        return familyName?:""
+        return familyName ?: ""
     }
 }

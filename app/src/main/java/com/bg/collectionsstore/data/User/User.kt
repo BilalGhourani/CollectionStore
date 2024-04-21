@@ -12,7 +12,7 @@ data class User(
      * */
     @PrimaryKey
     @ColumnInfo(name = "usr_id")
-    var userId: String? = null,
+    var userId: String,
 
     /**
      * User name

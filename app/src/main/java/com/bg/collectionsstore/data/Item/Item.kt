@@ -13,7 +13,7 @@ data class Item(
      * */
     @PrimaryKey
     @ColumnInfo(name = "it_id")
-    var itemId: String? = null,
+    var itemId: String,
 
     /**
      * Item name

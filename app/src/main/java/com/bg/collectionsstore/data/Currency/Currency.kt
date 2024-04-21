@@ -3,6 +3,7 @@ package com.bg.collectionsstore.data.Currency
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "currency")
 data class Currency(
@@ -11,7 +12,7 @@ data class Currency(
      * */
     @PrimaryKey
     @ColumnInfo(name = "cur_id")
-    var currencyId: String? = null,
+    var currencyId: String,
 
     /**
      * Currency company Id

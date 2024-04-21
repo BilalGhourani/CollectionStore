@@ -58,6 +58,6 @@ fun CategoryCell(
 @Composable
 fun CategoryCellPreview() {
     CollectionsStoreTheme {
-        CategoryCell(Family(1, "1", "Bilal", "1"), true)
+        CategoryCell(Family( "1", "Bilal", "1"), true)
     }
 }

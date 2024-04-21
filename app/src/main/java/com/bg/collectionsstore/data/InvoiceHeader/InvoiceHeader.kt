@@ -12,7 +12,7 @@ data class InvoiceHeader(
      * */
     @PrimaryKey
     @ColumnInfo(name = "hi_id")
-    var invoiceHeadId: String? = null,
+    var invoiceHeadId: String,
 
     /**
      * related Invoice header id

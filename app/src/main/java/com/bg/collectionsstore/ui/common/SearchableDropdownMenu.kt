@@ -5,6 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -40,6 +41,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.bg.collectionsstore.data.DataModel
 import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
@@ -54,9 +56,10 @@ fun SearchableDropdownMenu(
     selectedItem: String = "",
     onSelectionChange: (DataModel) -> Unit = {},
 ) {
-    var textfieldSize by remember { mutableStateOf(Size.Zero) }
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf(selectedItem) }
+    var selectedItem by remember { mutableStateOf(selectedItem) }
     var filteredItems by remember { mutableStateOf(items) }
     LaunchedEffect(searchText) {
         filteredItems =
@@ -65,22 +68,25 @@ fun SearchableDropdownMenu(
 
     Box(modifier = Modifier.fillMaxWidth()) {
         ExposedDropdownMenuBox(
+            modifier = Modifier.fillMaxWidth(),
             expanded = expanded,
             onExpandedChange = {
                 expanded = !expanded
             }
         ) {
-            OutlinedTextField(
-                value = searchText,
-                onValueChange = {
-                    searchText = it
-                },
+            TextField(
+                value = selectedItem,
+                onValueChange = { },
+                readOnly = true,
+                enabled = false,
                 modifier = modifier
-                    .menuAnchor()
                     .fillMaxWidth()
+                    .menuAnchor()
                     .onGloballyPositioned { coordinates ->
-                        //This value is used to assign to the DropDown the same width
-                        textfieldSize = coordinates.size.toSize()
+                        textFieldSize = coordinates.size.toSize()
+                    }
+                    .clickable {
+                        searchText = ""
                     },
                 label = { Text("Select User") },
                 trailingIcon = {
@@ -88,23 +94,34 @@ fun SearchableDropdownMenu(
                 }
             )
 
-            if (filteredItems.isNotEmpty()) {
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    modifier = modifier
-                        .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
-                ) {
-                    filteredItems.forEach { item ->
-                        val text = item.getName()
-                        DropdownMenuItem(
-                            text = { Text(text = text) },
-                            onClick = {
-                                onSelectionChange(item)
-                                searchText = text
-                                expanded = false
-                            })
-                    }
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        OutlinedTextField(
+                            value = searchText,
+                            onValueChange = {
+                                searchText = it
+                            },
+                            label = { Text("Search for an User") }
+                        )
+                    },
+                    onClick = {},
+                )
+                filteredItems.forEach { item ->
+                    val text = item.getName()
+                    DropdownMenuItem(
+                        text = { Text(text = text) },
+                        onClick = {
+                            onSelectionChange(item)
+                            searchText = text
+                            selectedItem = text
+                            expanded = false
+                        })
                 }
             }
         }

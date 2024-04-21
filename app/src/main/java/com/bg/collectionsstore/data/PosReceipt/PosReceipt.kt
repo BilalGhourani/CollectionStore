@@ -12,7 +12,7 @@ data class PosReceipt(
      * */
     @PrimaryKey
     @ColumnInfo(name = "pr_id")
-    var posReceiptId: String? = null,
+    var posReceiptId: String,
 
     /**
      * related POS Receipt Invoice Id
