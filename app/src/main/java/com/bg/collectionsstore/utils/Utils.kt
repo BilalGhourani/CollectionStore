@@ -1,8 +1,10 @@
 package com.bg.collectionsstore.utils
 
 import androidx.compose.ui.unit.Dp
+import com.bg.collectionsstore.data.DataModel
 import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Item.Item
+import com.bg.collectionsstore.data.User.User
 
 object Utils {
 
@@ -15,12 +17,24 @@ object Utils {
         "Table"
     )
 
+    val users = mutableListOf(
+        User(userId = "1", userName = "Bilal", userPassword = "123456") as DataModel,
+        User(userId = "1", userName = "Ziad", userPassword = "133442") as DataModel,
+        User(userId = "1", userName = "Zakariya", userPassword = "123432") as DataModel,
+        User(userId = "1", userName = "Mohammad", userPassword = "432785") as DataModel,
+        User(userId = "1", userName = "Ahmad", userPassword = "009988") as DataModel,
+        User(userId = "1", userName = "Samir", userPassword = "225577") as DataModel,
+        User(userId = "1", userName = "Omar", userPassword = "113311") as DataModel,
+        User(userId = "1", userName = "Abed Al Rahman", userPassword = "112345") as DataModel,
+        User(userId = "1", userName = "Abdullah", userPassword = "998888") as DataModel,
+    )
+
     val categories = mutableListOf(
-        Family(1,"1", "Chicken"),
-        Family(2,"2", "Meat"),
-        Family(3,"3", "Salad"),
-        Family(4,"4", "Veg"),
-        Family(5,"5", "Other")
+        Family(1, "1", "Chicken"),
+        Family(2, "2", "Meat"),
+        Family(3, "3", "Salad"),
+        Family(4, "4", "Veg"),
+        Family(5, "5", "Other")
     )
 
     val listOfItems = mutableListOf(

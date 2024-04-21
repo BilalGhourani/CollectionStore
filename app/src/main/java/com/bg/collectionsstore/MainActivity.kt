@@ -1,6 +1,9 @@
 package com.bg.collectionsstore
 
+import android.media.MediaPlayer
+import android.media.MediaPlayer.OnCompletionListener
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.ui.home.components.CollectionsView
 import com.bg.collectionsstore.ui.navigation.AuthNavGraph
 import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
@@ -35,6 +39,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        /*App.getInstance().getDbInstance().collection("set_users").get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val users = document.toObject(User::class.java)
+                    Log.d("bilal", "${document.id} => ${document.data}")
+                }
+            }.addOnFailureListener { exception ->
+            Log.w("bilal", "Error getting documents: ", exception)
+        }*/
+
     }
 }
 

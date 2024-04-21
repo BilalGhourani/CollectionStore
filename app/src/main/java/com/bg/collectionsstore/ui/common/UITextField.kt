@@ -1,14 +1,12 @@
 package com.bg.collectionsstore.ui.common
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -25,21 +23,20 @@ fun UITextField(
     autoCorrect: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     maxLines: Int = 1,
-    leadingIcon: Icon? = null,
-    trailingIcon: Icon? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(60.dp)
-            .padding(10.dp)
+            .height(80.dp)
     ) {
 
-        TextField(
+        OutlinedTextField(
             value = defaultValue,
             onValueChange = {
-                onValueChange
+                onValueChange(it)
             },
             label = { label?.let { Text(text = label) }.run { null } },
             placeholder = { placeHolder?.let { Text(text = placeHolder) }.run { null } },
@@ -51,12 +48,8 @@ fun UITextField(
             ),
             maxLines = maxLines,
             singleLine = maxLines == 1,
-            leadingIcon = {
-                leadingIcon
-            },
-            trailingIcon = {
-                trailingIcon
-            },
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
         )
     }
 }

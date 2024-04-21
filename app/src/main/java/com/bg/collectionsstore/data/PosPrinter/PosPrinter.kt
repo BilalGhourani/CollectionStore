@@ -3,19 +3,15 @@ package com.bg.collectionsstore.data.PosPrinter
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.bg.collectionsstore.data.DataModel
 import java.util.Date
 
 @Entity(tableName = "pos_printer")
 data class PosPrinter(
     /**
-     * Room database autoGenerate ID
-     * */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
-
-    /**
      * POS Printer Id
      * */
+    @PrimaryKey
     @ColumnInfo(name = "pp_id")
     var posPrinterId: String? = null,
 
@@ -45,4 +41,8 @@ data class PosPrinter(
     var posPrinterType: String,
 
 
-)
+    ) : DataModel() {
+    override fun getName(): String {
+        return posPrinterName ?: ""
+    }
+}

@@ -93,7 +93,6 @@ dependencies {
     implementation ("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     api ("com.google.firebase:firebase-messaging:23.4.1")
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
-
     implementation("com.google.firebase:firebase-firestore")
 
     // Glide images

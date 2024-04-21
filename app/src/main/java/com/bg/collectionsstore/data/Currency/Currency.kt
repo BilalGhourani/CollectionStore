@@ -7,14 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "currency")
 data class Currency(
     /**
-     * Room database autoGenerate ID
-     * */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
-
-    /**
      * Currency Id
      * */
+    @PrimaryKey
     @ColumnInfo(name = "cur_id")
     var currencyId: String? = null,
 

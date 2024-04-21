@@ -8,14 +8,9 @@ import java.util.Date
 @Entity(tableName = "in_invoice")
 data class Invoice(
     /**
-     * Room database autoGenerate ID
-     * */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
-
-    /**
      * Invoice Id
      * */
+    @PrimaryKey
     @ColumnInfo(name = "in_id")
     var invoiceId: String? = null,
 

@@ -3,19 +3,15 @@ package com.bg.collectionsstore.data.ThirdParty
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.bg.collectionsstore.data.DataModel
 import java.util.Date
 
 @Entity(tableName = "thirdparty")
 data class ThirdParty(
     /**
-     * Room database autoGenerate ID
-     * */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
-
-    /**
      * Third Party Id
      * */
+    @PrimaryKey
     @ColumnInfo(name = "tp_id")
     var thirdPartyId: String? = null,
 
@@ -74,4 +70,8 @@ data class ThirdParty(
     @ColumnInfo(name = "tp_userstamp")
     var thirdPartyUserStamp: String? = null,
 
-    )
+    ) : DataModel() {
+    override fun getName(): String {
+        return thirdPartyName ?: ""
+    }
+}

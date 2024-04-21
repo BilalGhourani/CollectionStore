@@ -3,18 +3,14 @@ package com.bg.collectionsstore.data.Company
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.bg.collectionsstore.data.DataModel
 
 @Entity(tableName = "company")
 data class Company(
     /**
-     * Room database autoGenerate ID
-     * */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
-
-    /**
      * Company id
      * */
+    @PrimaryKey
     @ColumnInfo(name = "cmp_id")
     var companyId: String? = null,
 
@@ -114,4 +110,8 @@ data class Company(
     @ColumnInfo(name = "cmp_tax2regno")
     var companyTax2Regno: String? = null,
 
-    )
+    ) : DataModel() {
+    override fun getName(): String {
+        return companyName ?: ""
+    }
+}

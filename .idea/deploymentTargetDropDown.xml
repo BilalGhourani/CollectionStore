@@ -11,6 +11,12 @@
       <entry key="ItemListCellPreview">
         <State />
       </entry>
+      <entry key="ManageUsersViewPreview">
+        <State />
+      </entry>
+      <entry key="SearchableDropdownMenuPreview">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

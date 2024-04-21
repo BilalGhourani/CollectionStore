@@ -3,19 +3,15 @@ package com.bg.collectionsstore.data.Item
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.bg.collectionsstore.data.DataModel
 import java.util.Date
 
 @Entity(tableName = "st_item")
 data class Item(
     /**
-     * Room database autoGenerate ID
-     * */
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
-
-    /**
      * Item Id
      * */
+    @PrimaryKey
     @ColumnInfo(name = "it_id")
     var itemId: String? = null,
 
@@ -103,4 +99,8 @@ data class Item(
     @ColumnInfo(name = "it_timestamp")
     var itemTimeStamp: String? = null,
 
-    )
+    ) : DataModel() {
+    override fun getName(): String {
+        return itemName ?: ""
+    }
+}
