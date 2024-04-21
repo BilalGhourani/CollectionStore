@@ -30,11 +30,11 @@ object Utils {
     )
 
     val categories = mutableListOf(
-        Family(1, "1", "Chicken"),
-        Family(2, "2", "Meat"),
-        Family(3, "3", "Salad"),
-        Family(4, "4", "Veg"),
-        Family(5, "5", "Other")
+        Family( "1", "Chicken"),
+        Family( "2", "Meat"),
+        Family("3", "Salad"),
+        Family( "4", "Veg"),
+        Family( "5", "Other")
     )
 
     val listOfItems = mutableListOf(
