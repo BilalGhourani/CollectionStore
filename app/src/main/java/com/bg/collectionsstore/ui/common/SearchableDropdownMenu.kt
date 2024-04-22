@@ -56,7 +56,6 @@ fun SearchableDropdownMenu(
     selectedItem: String = "",
     onSelectionChange: (DataModel) -> Unit = {},
 ) {
-    var textFieldSize by remember { mutableStateOf(Size.Zero) }
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf(selectedItem) }
     var selectedItem by remember { mutableStateOf(selectedItem) }
@@ -66,7 +65,7 @@ fun SearchableDropdownMenu(
             items.filter { it.getName().contains(searchText, ignoreCase = true) }.toMutableList()
     }
 
-    Box(modifier = Modifier.fillMaxWidth()) {
+    Box(modifier = modifier.fillMaxWidth()) {
         ExposedDropdownMenuBox(
             modifier = Modifier.fillMaxWidth(),
             expanded = expanded,
@@ -79,12 +78,9 @@ fun SearchableDropdownMenu(
                 onValueChange = { },
                 readOnly = true,
                 enabled = false,
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor()
-                    .onGloballyPositioned { coordinates ->
-                        textFieldSize = coordinates.size.toSize()
-                    }
                     .clickable {
                         searchText = ""
                     },
@@ -94,11 +90,10 @@ fun SearchableDropdownMenu(
                 }
             )
 
-            ExposedDropdownMenu(
+            DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier
-                    .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+                modifier = Modifier.exposedDropdownSize()
             ) {
                 DropdownMenuItem(
                     text = {
