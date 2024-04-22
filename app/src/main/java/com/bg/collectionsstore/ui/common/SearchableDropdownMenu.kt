@@ -61,7 +61,7 @@ fun SearchableDropdownMenu(
     var selectedItem by remember { mutableStateOf(selectedItem) }
     var filteredItems by remember { mutableStateOf(items) }
     LaunchedEffect(searchText) {
-        filteredItems =
+        filteredItems = if (searchText.isEmpty()) items else
             items.filter { it.getName().contains(searchText, ignoreCase = true) }.toMutableList()
     }
 
