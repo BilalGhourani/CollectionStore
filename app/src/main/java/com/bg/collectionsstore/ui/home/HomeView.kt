@@ -1,6 +1,7 @@
 package com.bg.collectionsstore.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,11 +40,12 @@ fun HomeView(
                         .width(120.dp)
                         .height(80.dp)
                         .padding(horizontal = 3.dp, vertical = 5.dp)
-                        .background(color = Blue, shape = RoundedCornerShape(15.dp)),
+                        .background(color = Blue, shape = RoundedCornerShape(15.dp))
+                        .clickable { navController?.navigate(item.composable) },
                     contentAlignment = Alignment.Center // Center content within the Box
                 ) {
                     Text(
-                        text = item,
+                        text = item.title,
                         color = Color.White,
                         modifier = Modifier
                             .padding(16.dp),

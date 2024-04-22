@@ -10,9 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
 import com.bg.collectionsstore.ui.common.UITextField
@@ -41,12 +46,20 @@ import com.bg.collectionsstore.utils.Utils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageUsersView(modifier: Modifier = Modifier) {
+fun ManageUsersView(navController: NavController? = null, modifier: Modifier = Modifier) {
     CollectionsStoreTheme {
         Scaffold(
             topBar = {
                 Surface(shadowElevation = 3.dp, color = Color.White) {
                     TopAppBar(
+                        navigationIcon = {
+                            IconButton(onClick = { navController?.navigateUp() }) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = "Back"
+                                )
+                            }
+                        },
                         title = {
                             Text(
                                 text = "Manage Users",
@@ -166,7 +179,7 @@ fun ManageUsersView(modifier: Modifier = Modifier) {
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = {}
+                                onClick = { navController?.navigateUp() }
                             ) {
                                 Text("Close")
                             }

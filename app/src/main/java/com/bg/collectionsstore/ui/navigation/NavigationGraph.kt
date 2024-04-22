@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.bg.collectionsstore.ui.User.ManageUsersView
 import com.bg.collectionsstore.ui.home.components.CollectionsView
 import com.bg.collectionsstore.ui.home.HomeView
 import com.bg.collectionsstore.ui.login.LoginView
@@ -32,5 +33,6 @@ fun AuthNavGraph(
         composable(route = "LoginView") { LoginView(navController) }
         // Collections View
         composable(route = "CollectionsView") { CollectionsView(navController) }
+        composable(route = "ManageUsersView") { ManageUsersView(navController) }
     }
 }

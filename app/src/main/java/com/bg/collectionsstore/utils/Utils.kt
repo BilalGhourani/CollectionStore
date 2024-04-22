@@ -5,16 +5,17 @@ import com.bg.collectionsstore.data.DataModel
 import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Item.Item
 import com.bg.collectionsstore.data.User.User
+import com.bg.collectionsstore.model.HomeSectionModel
 
 object Utils {
 
     val homeSections = mutableListOf(
-        "Company",
-        "User",
-        "Third Party",
-        "Item",
-        "POS",
-        "Table"
+        HomeSectionModel("Company", ""),
+        HomeSectionModel("User", "ManageUsersView"),
+        HomeSectionModel("Third Party", ""),
+        HomeSectionModel("Item", ""),
+        HomeSectionModel("POS", ""),
+        HomeSectionModel("Table", ""),
     )
 
     val users = mutableListOf(
@@ -30,11 +31,11 @@ object Utils {
     )
 
     val categories = mutableListOf(
-        Family( "1", "Chicken"),
-        Family( "2", "Meat"),
+        Family("1", "Chicken"),
+        Family("2", "Meat"),
         Family("3", "Salad"),
-        Family( "4", "Veg"),
-        Family( "5", "Other")
+        Family("4", "Veg"),
+        Family("5", "Other")
     )
 
     val listOfItems = mutableListOf(
