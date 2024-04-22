@@ -52,8 +52,6 @@ fun ManageUsersView(modifier: Modifier = Modifier) {
                                 text = "Manage Users",
                                 color = Color.Black,
                                 fontSize = 16.sp,
-                                modifier = Modifier
-                                    .padding(16.dp),
                                 textAlign = TextAlign.Center
                             )
                         })
