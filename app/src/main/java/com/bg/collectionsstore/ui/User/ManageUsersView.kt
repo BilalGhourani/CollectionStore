@@ -22,7 +22,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.bg.collectionsstore.data.DataModel
 import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
 import com.bg.collectionsstore.ui.common.UITextField
@@ -82,6 +85,9 @@ fun ManageUsersView(
                     .padding(it)
                     .background(color = Color.Transparent)
             ) {
+                val manageUsersState: ManageUsersState by viewModel.manageUsersState.collectAsState(
+                    ManageUsersState()
+                )
                 var posModeState by remember { mutableStateOf(true) }
                 var tableModeState by remember { mutableStateOf(false) }
                 var usernameState by remember { mutableStateOf("") }
@@ -98,7 +104,7 @@ fun ManageUsersView(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SearchableDropdownMenu(
-                            items = Utils.users,
+                            items = manageUsersState.users.toMutableList(),
                             modifier = Modifier.padding(10.dp),
                             selectedItem = usernameState,
                         ) {

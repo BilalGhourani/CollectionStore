@@ -1,5 +1,6 @@
 package com.bg.collectionsstore.data.User
 
+import com.bg.collectionsstore.interfaces.OnResult
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
@@ -18,9 +19,5 @@ interface UserRepository {
     suspend fun getUserById(id: String): User
 
     // Get all Users as stream.
-    fun getAllUsers(): Flow<List<User>>
-
-    // Get searched Users as stream.
-    fun searchForUsers(key: String): Flow<List<User>>
-
+    suspend fun getAllUsers(callback: OnResult?)
 }

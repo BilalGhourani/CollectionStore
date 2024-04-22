@@ -39,15 +39,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        /*App.getInstance().getDbInstance().collection("set_users").get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val users = document.toObject(User::class.java)
-                    Log.d("bilal", "${document.id} => ${document.data}")
-                }
-            }.addOnFailureListener { exception ->
-            Log.w("bilal", "Error getting documents: ", exception)
-        }*/
 
     }
 }

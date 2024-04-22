@@ -7,6 +7,8 @@ import com.bg.collectionsstore.data.Family.FamilyRepository
 import com.bg.collectionsstore.data.Family.FamilyRepositoryImpl
 import com.bg.collectionsstore.data.Item.ItemRepository
 import com.bg.collectionsstore.data.Item.ItemRepositoryImpl
+import com.bg.collectionsstore.data.User.UserRepository
+import com.bg.collectionsstore.data.User.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +39,12 @@ object AppModule {
     @Singleton
     fun provideItemRepository(db: AppDatabase): ItemRepository {
         return ItemRepositoryImpl(db.itemDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(db: AppDatabase): UserRepository {
+        return UserRepositoryImpl(db.userDao)
     }
 
 
