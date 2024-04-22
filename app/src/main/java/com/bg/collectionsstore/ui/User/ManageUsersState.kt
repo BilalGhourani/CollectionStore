@@ -4,5 +4,7 @@ import com.bg.collectionsstore.data.User.User
 
 data class ManageUsersState(
     val users: MutableList<User> = mutableListOf(),
-    val selectedUser: User? = null
-)
+    var selectedUser: User = User(),
+    val isLoading: Boolean = false,
+    val warning: String? = null,
+    )

@@ -6,6 +6,7 @@ import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Item.Item
 import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.model.HomeSectionModel
+import java.util.UUID
 
 object Utils {
 
@@ -51,5 +52,9 @@ object Utils {
     fun calculateColumns(cellWidth: Dp, screenWidth: Dp): Int {
         val availableSpace = screenWidth - Dp((2 * 16F))// Account for paddings (adjust as needed)
         return (availableSpace / cellWidth).toInt().coerceAtLeast(1) // Ensure at least 1 column
+    }
+
+    fun generateRandomUuidString(): String {
+        return UUID.randomUUID().toString()
     }
 }

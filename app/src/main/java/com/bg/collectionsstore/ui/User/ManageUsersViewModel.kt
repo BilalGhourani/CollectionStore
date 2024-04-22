@@ -7,6 +7,7 @@ import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.data.User.UserRepository
 import com.bg.collectionsstore.interfaces.OnResult
 import com.bg.collectionsstore.model.Resource
+import com.bg.collectionsstore.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,10 +35,10 @@ class ManageUsersViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val listOfUsers = mutableListOf<User>()
             repository.getAllUsers(object : OnResult {
-                override fun onSuccess(result: List<Any>) {
+                override fun onSuccess(result: Any) {
                     val listOfUsers = mutableListOf<User>()
-                    result.forEach {
-                        listOfUsers.add(it as User)
+                    (result as List<User>).forEach {
+                        listOfUsers.add(it)
                     }
                     viewModelScope.launch(Dispatchers.Main) {
                         manageUsersState.value = manageUsersState.value.copy(
@@ -54,25 +55,83 @@ class ManageUsersViewModel @Inject constructor(
         }
     }
 
-    private fun selectedUser(user: User) {
-        manageUsersState.value = manageUsersState.value.copy(
-            selectedUser = user
-        )
-    }
-
     fun saveUser() {
+        val user = manageUsersState.value.selectedUser
+        if (user.userName.isNullOrEmpty() || user.userPassword.isNullOrEmpty()) {
+            manageUsersState.value = manageUsersState.value.copy(
+                warning = "Please fill all inputs",
+                isLoading = false
+            )
+            return
+        }
+        manageUsersState.value = manageUsersState.value.copy(
+            isLoading = true
+        )
+        val callback = object : OnResult {
+            override fun onSuccess(result: Any) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    manageUsersState.value = manageUsersState.value.copy(
+                        selectedUser = result as User,
+                        isLoading = false
+                    )
+                }
+            }
+
+            override fun onFailure(message: String) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    manageUsersState.value = manageUsersState.value.copy(
+                        isLoading = false
+                    )
+                }
+            }
+
+        }
         manageUsersState.value.selectedUser?.let {
             CoroutineScope(Dispatchers.IO).launch {
-                repository.insert(it)
+                if (it.userDocumentId.isNullOrEmpty()) {
+                    it.userId = Utils.generateRandomUuidString()
+                    repository.insert(it, callback)
+                } else {
+                    repository.update(it, callback)
+                }
             }
         }
     }
 
     fun deleteSelectedUser() {
-        manageUsersState.value.selectedUser?.let {
-            CoroutineScope(Dispatchers.IO).launch {
-                repository.delete(it)
-            }
+        val user = manageUsersState.value.selectedUser
+        if (user.userName.isNullOrEmpty() || user.userPassword.isNullOrEmpty()) {
+            manageUsersState.value = manageUsersState.value.copy(
+                warning = "Please select an user to delete",
+                isLoading = false
+            )
+            return
+        }
+        manageUsersState.value = manageUsersState.value.copy(
+            warning = null,
+            isLoading = true
+        )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.delete(user, object : OnResult {
+                override fun onSuccess(result: Any) {
+                    viewModelScope.launch(Dispatchers.Main) {
+                        manageUsersState.value = manageUsersState.value.copy(
+                            selectedUser = result as User,
+                            isLoading = false
+                        )
+                    }
+                }
+
+                override fun onFailure(message: String) {
+                    viewModelScope.launch(Dispatchers.Main) {
+                        manageUsersState.value = manageUsersState.value.copy(
+                            isLoading = false
+                        )
+                    }
+                }
+
+            })
         }
     }
 

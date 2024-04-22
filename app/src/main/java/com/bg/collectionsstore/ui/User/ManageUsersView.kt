@@ -18,10 +18,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -40,6 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.bg.collectionsstore.data.DataModel
 import com.bg.collectionsstore.data.User.User
+import com.bg.collectionsstore.ui.common.LoadingIndicator
 import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
 import com.bg.collectionsstore.ui.common.UITextField
 import com.bg.collectionsstore.ui.common.UiVerticalCheckBox
@@ -47,6 +52,9 @@ import com.bg.collectionsstore.ui.theme.Blue
 import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
 import com.bg.collectionsstore.ui.theme.PurpleGrey80
 import com.bg.collectionsstore.utils.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,8 +63,25 @@ fun ManageUsersView(
     modifier: Modifier = Modifier,
     viewModel: ManageUsersViewModel = hiltViewModel()
 ) {
+    val manageUsersState: ManageUsersState by viewModel.manageUsersState.collectAsState(
+        ManageUsersState()
+    )
+    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(manageUsersState.warning) {
+        if (!manageUsersState.warning.isNullOrEmpty()) {
+            CoroutineScope(Dispatchers.Main).launch {
+                snackbarHostState.showSnackbar(
+                    message = manageUsersState.warning!!,
+                    duration = SnackbarDuration.Short,
+                )
+            }
+        }
+    }
     CollectionsStoreTheme {
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
             topBar = {
                 Surface(shadowElevation = 3.dp, color = Color.White) {
                     TopAppBar(
@@ -85,9 +110,6 @@ fun ManageUsersView(
                     .padding(it)
                     .background(color = Color.Transparent)
             ) {
-                val manageUsersState: ManageUsersState by viewModel.manageUsersState.collectAsState(
-                    ManageUsersState()
-                )
                 var posModeState by remember { mutableStateOf(true) }
                 var tableModeState by remember { mutableStateOf(false) }
                 var usernameState by remember { mutableStateOf("") }
@@ -109,6 +131,7 @@ fun ManageUsersView(
                             selectedItem = usernameState,
                         ) {
                             it as User
+                            manageUsersState.selectedUser = it
                             usernameState = it.userName ?: ""
                             passwordState = it.userPassword ?: ""
                         }
@@ -120,6 +143,7 @@ fun ManageUsersView(
                             placeHolder = "Enter Username"
                         ) {
                             usernameState = it
+                            manageUsersState.selectedUser.userName = it
                         }
 
                         UITextField(
@@ -130,6 +154,7 @@ fun ManageUsersView(
                             keyboardType = KeyboardType.Password
                         ) {
                             passwordState = it
+                            manageUsersState.selectedUser.userPassword = it
                         }
 
                         Row(
@@ -200,6 +225,9 @@ fun ManageUsersView(
                     }
                 }
             }
+            LoadingIndicator(
+                show = manageUsersState.isLoading
+            )
         }
     }
 }

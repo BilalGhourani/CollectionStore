@@ -1,7 +1,7 @@
 package com.bg.collectionsstore.interfaces
 
 interface OnResult {
-    fun onSuccess(result: List<Any>)
+    fun onSuccess(result: Any)
 
     fun onFailure(message: String)
 }

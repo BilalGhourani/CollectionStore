@@ -2,8 +2,11 @@ package com.bg.collectionsstore.data.User
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.bg.collectionsstore.data.DataModel
+import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 
 @Entity(tableName = "set_users")
@@ -16,6 +19,10 @@ data class User(
     @set:PropertyName("usr_id")
     @get:PropertyName("usr_id")
     var userId: String,
+
+    @Ignore
+    @get:Exclude
+    var userDocumentId: String? = null,
 
     /**
      * User name
@@ -116,7 +123,26 @@ data class User(
 ) : DataModel() {
     constructor() : this("")
 
+    @Exclude
     override fun getName(): String {
         return userName ?: ""
+    }
+
+    @Exclude
+    fun getMap(): Map<String, Any?> {
+        return mapOf(
+            "usr_name" to userName,
+            "usr_password" to userPassword,
+            /*"usr_username" to userUsername,
+            "usr_cmp_id" to userCompanyId,
+            "usr_code" to userCode,
+            "usr_email" to userEmail,
+            "usr_expiry" to userExpiry,
+            "usr_grp_desc" to userGrpDesc,
+            "usr_inactive" to userInactive,
+            "usr_startdate" to userStartDate,
+            "usr_tp_name" to userTpName,
+            "usr_userprofile" to userProfile,*/
+        )
     }
 }

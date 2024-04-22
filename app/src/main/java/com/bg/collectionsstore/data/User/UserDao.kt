@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+
 @Dao
 interface UserDao {
 
@@ -16,23 +17,31 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User)
 
-    // Delete a call log
+    // insert list of users
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(order: List<User>)
+
+    // Delete an user
     @Delete
     suspend fun delete(user: User)
 
-    // Update a call log
+    // Delete all users
+    @Query("DELETE FROM set_users")
+    suspend fun deleteAll()
+
+    // Update an user
     @Update
     suspend fun update(user: User)
 
-    // Get call log by it's ID
+    // Get user by it's ID
     @Query("SELECT * FROM set_users WHERE usr_id = :id")
     suspend fun getUserById(id: String): User
 
-    // Get all call logs as stream.
+    // Get all users as stream.
     @Query("SELECT * FROM `set_users`")
     fun getAllUsers(): Flow<List<User>>
 
-    // Get all call logs as stream.
+    // Get all users as stream.
     @Query("SELECT * FROM `set_users` WHERE usr_name LIKE '%' || :key || '%'")
     fun searchForUsers(key: String): Flow<List<User>>
 }
