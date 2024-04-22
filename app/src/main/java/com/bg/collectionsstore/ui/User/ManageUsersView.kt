@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
@@ -46,7 +47,11 @@ import com.bg.collectionsstore.utils.Utils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageUsersView(navController: NavController? = null, modifier: Modifier = Modifier) {
+fun ManageUsersView(
+    navController: NavController? = null,
+    modifier: Modifier = Modifier,
+    viewModel: ManageUsersViewModel = hiltViewModel()
+) {
     CollectionsStoreTheme {
         Scaffold(
             topBar = {
@@ -159,7 +164,7 @@ fun ManageUsersView(navController: NavController? = null, modifier: Modifier = M
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = {}
+                                onClick = { viewModel.saveUser() }
                             ) {
                                 Text("Save")
                             }
@@ -169,7 +174,7 @@ fun ManageUsersView(navController: NavController? = null, modifier: Modifier = M
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = {}
+                                onClick = { viewModel.deleteSelectedUser() }
                             ) {
                                 Text("Delete")
                             }
