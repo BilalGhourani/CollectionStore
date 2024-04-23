@@ -1,9 +1,11 @@
 package com.bg.collectionsstore.data.User
 
+import androidx.lifecycle.asLiveData
 import com.bg.collectionsstore.interfaces.OnResult
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class UserRepositoryImpl(
@@ -58,28 +60,30 @@ class UserRepositoryImpl(
     }
 
     override suspend fun getAllUsers(callback: OnResult?) {
-        userDao.getAllUsers().collect {
-            callback?.onSuccess(it)
-            FirebaseFirestore.getInstance().collection("set_users").get()
-                .addOnSuccessListener { result ->
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val users = mutableListOf<User>()
-                        userDao.deleteAll()
-                        for (document in result) {
-                            val obj = document.toObject(User::class.java)
-                            if (!obj.userId.isNullOrEmpty()) {
-                                obj.userDocumentId = document.id
-                                users.add(obj)
-                            }
-                        }
-                        userDao.insertAll(users.toList())
-                        callback?.onSuccess(users)
-                    }
-                }.addOnFailureListener { exception ->
-                    callback?.onFailure(
-                        exception.message ?: "Network error! Can't get users from remote."
-                    )
-                }
+        val users = userDao.getAllUsers().asLiveData().value
+        if (!users.isNullOrEmpty()) {
+            callback?.onSuccess(users)
         }
+        FirebaseFirestore.getInstance().collection("set_users").get()
+            .addOnSuccessListener { result ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    val users = mutableListOf<User>()
+                    userDao.deleteAll()
+                    for (document in result) {
+                        val obj = document.toObject(User::class.java)
+                        if (!obj.userId.isNullOrEmpty()) {
+                            obj.userDocumentId = document.id
+                            users.add(obj)
+                        }
+                    }
+                    userDao.insertAll(users.toList())
+                    callback?.onSuccess(users)
+                }
+            }.addOnFailureListener { exception ->
+                callback?.onFailure(
+                    exception.message ?: "Network error! Can't get users from remote."
+                )
+            }
+
     }
 }

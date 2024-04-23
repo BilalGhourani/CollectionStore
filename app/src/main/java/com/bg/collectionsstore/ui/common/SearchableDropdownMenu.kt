@@ -59,11 +59,6 @@ fun SearchableDropdownMenu(
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf(selectedItem) }
     var selectedItem by remember { mutableStateOf(selectedItem) }
-    var filteredItems by remember { mutableStateOf(items) }
-    LaunchedEffect(searchText) {
-        filteredItems = if (searchText.isEmpty()) items else
-            items.filter { it.getName().contains(searchText, ignoreCase = true) }.toMutableList()
-    }
 
     Box(modifier = modifier.fillMaxWidth()) {
         ExposedDropdownMenuBox(
@@ -89,34 +84,36 @@ fun SearchableDropdownMenu(
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                 }
             )
-
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.exposedDropdownSize()
-            ) {
-                DropdownMenuItem(
-                    text = {
-                        OutlinedTextField(
-                            value = searchText,
-                            onValueChange = {
-                                searchText = it
-                            },
-                            label = { Text("Search for an User") }
-                        )
-                    },
-                    onClick = {},
-                )
-                filteredItems.forEach { item ->
-                    val text = item.getName()
+            val filteredItems = items.filter { it.getName().contains(searchText, ignoreCase = true) }
+            if (filteredItems.isNotEmpty()) {
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier.exposedDropdownSize()
+                ) {
                     DropdownMenuItem(
-                        text = { Text(text = text) },
-                        onClick = {
-                            onSelectionChange(item)
-                            searchText = text
-                            selectedItem = text
-                            expanded = false
-                        })
+                        text = {
+                            OutlinedTextField(
+                                value = searchText,
+                                onValueChange = {
+                                    searchText = it
+                                },
+                                label = { Text("Search for an User") }
+                            )
+                        },
+                        onClick = {},
+                    )
+                    filteredItems.forEach { item ->
+                        val text = item.getName()
+                        DropdownMenuItem(
+                            text = { Text(text = text) },
+                            onClick = {
+                                onSelectionChange(item)
+                                searchText = text
+                                selectedItem = text
+                                expanded = false
+                            })
+                    }
                 }
             }
         }

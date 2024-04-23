@@ -19,7 +19,7 @@ interface UserDao {
 
     // insert list of users
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(order: List<User>)
+    suspend fun insertAll(order: List<User>)
 
     // Delete an user
     @Delete
