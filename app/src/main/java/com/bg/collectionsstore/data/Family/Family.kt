@@ -2,8 +2,10 @@ package com.bg.collectionsstore.data.Family
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.bg.collectionsstore.data.DataModel
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import org.jetbrains.annotations.NotNull
 
@@ -17,6 +19,10 @@ data class Family(
     @set:PropertyName("fa_id")
     @get:PropertyName("fa_id")
     var familyId: String,
+
+    @Ignore
+    @get:Exclude
+    var familyDocumentId: String? = null,
 
     /**
      * Family name
@@ -36,7 +42,17 @@ data class Family(
     var familyCompanyId: String? = null,
 
     ) : DataModel() {
+    constructor() : this("")
+
+    @Exclude
     override fun getName(): String {
         return familyName ?: ""
+    }
+
+    @Exclude
+    fun getMap(): Map<String, Any?> {
+        return mapOf(
+            "fa_name" to familyName
+        )
     }
 }

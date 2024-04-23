@@ -225,10 +225,10 @@ fun ManageUsersView(
                     }
                 }
             }
-            LoadingIndicator(
-                show = manageUsersState.isLoading
-            )
         }
+        LoadingIndicator(
+            show = manageUsersState.isLoading
+        )
     }
 }
 

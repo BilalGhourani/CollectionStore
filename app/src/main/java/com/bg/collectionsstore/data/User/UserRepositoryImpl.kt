@@ -114,6 +114,5 @@ class UserRepositoryImpl(
                     exception.message ?: "Network error! Can't get users from remote."
                 )
             }
-
     }
 }

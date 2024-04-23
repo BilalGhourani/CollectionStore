@@ -17,9 +17,17 @@ interface FamilyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(family: Family)
 
+    // insert list of families
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(order: List<Family>)
+
     // Delete a call log
     @Delete
     suspend fun delete(family: Family)
+
+    // Delete all families
+    @Query("DELETE FROM st_family")
+    suspend fun deleteAll()
 
     // Update a call log
     @Update

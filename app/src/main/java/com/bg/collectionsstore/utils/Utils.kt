@@ -14,6 +14,7 @@ object Utils {
         HomeSectionModel("Company", "ManageFamiliesView"),
         HomeSectionModel("User", "ManageUsersView"),
         HomeSectionModel("Third Party", "ManageThirdPartiesView"),
+        HomeSectionModel("Family", "ManageFamiliesView"),
         HomeSectionModel("Item", "ManageItemsView"),
         HomeSectionModel("POS", "ManagePosView"),
         HomeSectionModel("Table", "ManageTablesView"),
