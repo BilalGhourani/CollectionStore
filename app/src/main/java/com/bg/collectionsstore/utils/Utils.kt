@@ -11,12 +11,12 @@ import java.util.UUID
 object Utils {
 
     val homeSections = mutableListOf(
-        HomeSectionModel("Company", ""),
+        HomeSectionModel("Company", "ManageFamiliesView"),
         HomeSectionModel("User", "ManageUsersView"),
-        HomeSectionModel("Third Party", ""),
-        HomeSectionModel("Item", ""),
-        HomeSectionModel("POS", ""),
-        HomeSectionModel("Table", ""),
+        HomeSectionModel("Third Party", "ManageThirdPartiesView"),
+        HomeSectionModel("Item", "ManageItemsView"),
+        HomeSectionModel("POS", "ManagePosView"),
+        HomeSectionModel("Table", "ManageTablesView"),
     )
 
     val users = mutableListOf(

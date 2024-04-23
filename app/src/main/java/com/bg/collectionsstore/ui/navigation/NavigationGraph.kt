@@ -8,11 +8,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.bg.collectionsstore.ui.Family.ManageFamiliesView
+import com.bg.collectionsstore.ui.Item.ManageItemsView
 import com.bg.collectionsstore.ui.User.ManageUsersView
-import com.bg.collectionsstore.ui.home.components.CollectionsView
 import com.bg.collectionsstore.ui.home.HomeView
+import com.bg.collectionsstore.ui.home.components.CollectionsView
 import com.bg.collectionsstore.ui.login.LoginView
+import com.bg.collectionsstore.ui.pos.ManagePosView
+import com.bg.collectionsstore.ui.table.ManageTablesView
 import com.bg.collectionsstore.ui.theme.White
+import com.bg.collectionsstore.ui.thirdParty.ManageThirdPartiesView
 
 @Composable
 fun AuthNavGraph(
@@ -27,12 +32,15 @@ fun AuthNavGraph(
         startDestination = startDestination,
         modifier = modifier.background(color = White)
     ) {
-        // Collections View
+
         composable(route = "HomeView") { HomeView(navController) }
-        // Collections View
         composable(route = "LoginView") { LoginView(navController) }
-        // Collections View
         composable(route = "CollectionsView") { CollectionsView(navController) }
         composable(route = "ManageUsersView") { ManageUsersView(navController) }
+        composable(route = "ManageFamiliesView") { ManageFamiliesView(navController) }
+        composable(route = "ManageThirdPartiesView") { ManageThirdPartiesView(navController) }
+        composable(route = "ManageItemsView") { ManageItemsView(navController) }
+        composable(route = "ManagePosView") { ManagePosView(navController) }
+        composable(route = "ManageTablesView") { ManageTablesView(navController) }
     }
 }

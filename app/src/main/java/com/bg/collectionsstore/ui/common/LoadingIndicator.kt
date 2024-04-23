@@ -45,22 +45,12 @@ fun LoadingIndicator(
                     .background(color = Color.Transparent, shape = RoundedCornerShape(8.dp))
                     .shadow(8.dp)
             ) {
-                Column(
-                    Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator(
-                        Modifier.size(40.dp),
-                        strokeWidth = 8.dp
-                    )
-
-                    Text(
-                        modifier = Modifier.padding(top = 16.dp),
-                        text = label,
-                        fontSize = 26.sp
-                    )
-                }
+                CircularProgressIndicator(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(20.dp),
+                    strokeWidth = 3.dp
+                )
             }
         }
     }
