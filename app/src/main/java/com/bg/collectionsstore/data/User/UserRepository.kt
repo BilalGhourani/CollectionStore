@@ -18,6 +18,9 @@ interface UserRepository {
     // Get User by it's ID
     suspend fun getUserById(id: String): User
 
+    // Get User by it's ID
+    suspend fun getUserByCredentials(username: String, password: String, callback: OnResult?)
+
     // Get all Users as stream.
     suspend fun getAllUsers(callback: OnResult? = null)
 }

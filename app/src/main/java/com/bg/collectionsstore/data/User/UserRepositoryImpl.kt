@@ -2,11 +2,14 @@ package com.bg.collectionsstore.data.User
 
 import androidx.lifecycle.asLiveData
 import com.bg.collectionsstore.interfaces.OnResult
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+
 
 class UserRepositoryImpl(
     private val userDao: UserDao
@@ -59,10 +62,37 @@ class UserRepositoryImpl(
         return userDao.getUserById(id)
     }
 
+    override suspend fun getUserByCredentials(
+        username: String,
+        password: String,
+        callback: OnResult?
+    ) {
+        FirebaseFirestore.getInstance().collection("set_users")
+            .whereEqualTo("usr_username", username)
+            .whereEqualTo("usr_password", password)
+            .get()
+            .addOnSuccessListener { result ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    for (document in result) {
+                        val obj = document.toObject(User::class.java)
+                        if (!obj.userId.isNullOrEmpty()) {
+                            obj.userDocumentId = document.id
+                            callback?.onSuccess(obj)
+                            return@launch
+                        }
+                    }
+                }
+            }.addOnFailureListener { exception ->
+                callback?.onFailure(
+                    exception.message ?: "Network error! Can't get users from remote."
+                )
+            }
+    }
+
     override suspend fun getAllUsers(callback: OnResult?) {
-        val users = userDao.getAllUsers().asLiveData().value
-        if (!users.isNullOrEmpty()) {
-            callback?.onSuccess(users)
+        val localUsers = userDao.getAllUsers().asLiveData().value
+        if (!localUsers.isNullOrEmpty()) {
+            callback?.onSuccess(localUsers)
         }
         FirebaseFirestore.getInstance().collection("set_users").get()
             .addOnSuccessListener { result ->

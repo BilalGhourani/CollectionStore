@@ -40,7 +40,7 @@ fun LoadingIndicator(
         ) {
             Card(
                 Modifier
-                    .size(200.dp, 180.dp)
+                    .size(100.dp, 100.dp)
                     .align(Alignment.Center)
                     .background(color = Color.Transparent, shape = RoundedCornerShape(8.dp))
                     .shadow(8.dp)
@@ -51,7 +51,7 @@ fun LoadingIndicator(
                     verticalArrangement = Arrangement.Center
                 ) {
                     CircularProgressIndicator(
-                        Modifier.size(76.dp),
+                        Modifier.size(40.dp),
                         strokeWidth = 8.dp
                     )
 
