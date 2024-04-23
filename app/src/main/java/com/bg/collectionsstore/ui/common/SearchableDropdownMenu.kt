@@ -79,7 +79,6 @@ fun SearchableDropdownMenu(
                     .clickable {
                         searchText = ""
                     },
-                label = { Text("Select User") },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                 }
