@@ -30,8 +30,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -56,6 +60,7 @@ fun LoginView(
     val loginState: LoginState by viewModel.usersState.collectAsState(LoginState())
     val keyboardController = LocalSoftwareKeyboardController.current
     val snackbarHostState = remember { SnackbarHostState() }
+    val passwordFocusRequester = remember { FocusRequester() }
     LaunchedEffect(loginState.warning, loginState.isLoggedIn) {
         if (!loginState.warning.isNullOrEmpty()) {
             CoroutineScope(Dispatchers.Main).launch {
@@ -119,7 +124,8 @@ fun LoginView(
                             modifier = Modifier.padding(10.dp),
                             defaultValue = usernameState,
                             label = "Username",
-                            placeHolder = "Username"
+                            placeHolder = "Username",
+                            onAction = { passwordFocusRequester.requestFocus() }
                         ) {
                             usernameState = it
                         }
@@ -129,7 +135,13 @@ fun LoginView(
                             defaultValue = passwordState,
                             label = "Password",
                             placeHolder = "Password",
-                            keyboardType = KeyboardType.Password
+                            focusRequester = passwordFocusRequester,
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done,
+                            onAction = {
+                                keyboardController?.hide()
+                                viewModel.login(usernameState, passwordState)
+                            }
                         ) {
                             passwordState = it
                         }

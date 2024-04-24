@@ -33,7 +33,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,6 +64,7 @@ fun ManageUsersView(
     val manageUsersState: ManageUsersState by viewModel.manageUsersState.collectAsState(
         ManageUsersState()
     )
+    val passwordFocusRequester = remember { FocusRequester() }
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(manageUsersState.warning) {
         if (!manageUsersState.warning.isNullOrEmpty()) {
@@ -136,7 +139,8 @@ fun ManageUsersView(
                             modifier = Modifier.padding(10.dp),
                             defaultValue = usernameState,
                             label = "Username",
-                            placeHolder = "Enter Username"
+                            placeHolder = "Enter Username",
+                            onAction = { passwordFocusRequester.requestFocus() }
                         ) {
                             usernameState = it
                             manageUsersState.selectedUser.userUsername = it
@@ -147,7 +151,9 @@ fun ManageUsersView(
                             defaultValue = passwordState,
                             label = "Password",
                             placeHolder = "Enter Password",
-                            keyboardType = KeyboardType.Password
+                            focusRequester = passwordFocusRequester,
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
                         ) {
                             passwordState = it
                             manageUsersState.selectedUser.userPassword = it
