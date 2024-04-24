@@ -1,4 +1,4 @@
-package com.bg.collectionsstore.ui.Family
+package com.bg.collectionsstore.ui.family
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

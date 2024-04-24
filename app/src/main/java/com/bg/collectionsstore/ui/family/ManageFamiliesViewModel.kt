@@ -1,24 +1,16 @@
-package com.bg.collectionsstore.ui.Family
+package com.bg.collectionsstore.ui.family
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Family.FamilyRepository
-import com.bg.collectionsstore.data.User.User
-import com.bg.collectionsstore.data.User.UserRepository
 import com.bg.collectionsstore.interfaces.OnResult
-import com.bg.collectionsstore.model.Resource
 import com.bg.collectionsstore.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel

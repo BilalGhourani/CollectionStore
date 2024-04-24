@@ -1,22 +1,16 @@
-package com.bg.collectionsstore.ui.User
+package com.bg.collectionsstore.ui.user
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.data.User.UserRepository
 import com.bg.collectionsstore.interfaces.OnResult
-import com.bg.collectionsstore.model.Resource
 import com.bg.collectionsstore.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -57,7 +51,7 @@ class ManageUsersViewModel @Inject constructor(
 
     fun saveUser() {
         val user = manageUsersState.value.selectedUser
-        if (user.userName.isNullOrEmpty() || user.userPassword.isNullOrEmpty()) {
+        if (user.userUsername.isNullOrEmpty() || user.userPassword.isNullOrEmpty()) {
             manageUsersState.value = manageUsersState.value.copy(
                 warning = "Please fill all inputs",
                 isLoading = false
@@ -90,6 +84,7 @@ class ManageUsersViewModel @Inject constructor(
             CoroutineScope(Dispatchers.IO).launch {
                 if (it.userDocumentId.isNullOrEmpty()) {
                     it.userId = Utils.generateRandomUuidString()
+                    it.userName = Utils.generateNameFromUsername(user.userUsername!!)
                     repository.insert(it, callback)
                 } else {
                     repository.update(it, callback)
@@ -100,7 +95,7 @@ class ManageUsersViewModel @Inject constructor(
 
     fun deleteSelectedUser() {
         val user = manageUsersState.value.selectedUser
-        if (user.userName.isNullOrEmpty() || user.userPassword.isNullOrEmpty()) {
+        if (user.userUsername.isNullOrEmpty() || user.userPassword.isNullOrEmpty()) {
             manageUsersState.value = manageUsersState.value.copy(
                 warning = "Please select an user to delete",
                 isLoading = false

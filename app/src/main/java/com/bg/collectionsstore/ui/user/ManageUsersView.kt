@@ -1,4 +1,4 @@
-package com.bg.collectionsstore.ui.Family
+package com.bg.collectionsstore.ui.user
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,10 +18,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,32 +36,48 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.User.User
-import com.bg.collectionsstore.ui.User.ManageUsersState
 import com.bg.collectionsstore.ui.common.LoadingIndicator
 import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
 import com.bg.collectionsstore.ui.common.UITextField
 import com.bg.collectionsstore.ui.common.UiVerticalCheckBox
 import com.bg.collectionsstore.ui.theme.Blue
 import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageFamiliesView(
+fun ManageUsersView(
     navController: NavController? = null,
     modifier: Modifier = Modifier,
-    viewModel: ManageFamiliesViewModel = hiltViewModel()
+    viewModel: ManageUsersViewModel = hiltViewModel()
 ) {
-    val manageFamiliesState: ManageFamiliesState by viewModel.manageFamiliesState.collectAsState(
-        ManageFamiliesState()
+    val manageUsersState: ManageUsersState by viewModel.manageUsersState.collectAsState(
+        ManageUsersState()
     )
+    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(manageUsersState.warning) {
+        if (!manageUsersState.warning.isNullOrEmpty()) {
+            CoroutineScope(Dispatchers.Main).launch {
+                snackbarHostState.showSnackbar(
+                    message = manageUsersState.warning!!,
+                    duration = SnackbarDuration.Short,
+                )
+            }
+        }
+    }
     CollectionsStoreTheme {
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
             topBar = {
                 Surface(shadowElevation = 3.dp, color = Color.White) {
                     TopAppBar(
@@ -71,7 +91,7 @@ fun ManageFamiliesView(
                         },
                         title = {
                             Text(
-                                text = "Manage Families",
+                                text = "Manage Users",
                                 color = Color.Black,
                                 fontSize = 16.sp,
                                 textAlign = TextAlign.Center
@@ -79,44 +99,84 @@ fun ManageFamiliesView(
                         })
                 }
             }
-        ) {
+        ) { it ->
             Box(
                 modifier = modifier
                     .fillMaxSize()
                     .padding(it)
                     .background(color = Color.Transparent)
             ) {
-                var nameState by remember { mutableStateOf("") }
-                Box(
+                var posModeState by remember { mutableStateOf(true) }
+                var tableModeState by remember { mutableStateOf(false) }
+                var usernameState by remember { mutableStateOf("") }
+                var passwordState by remember { mutableStateOf("") }
+                Column(
                     modifier = Modifier
                         .fillMaxSize(),
-                    contentAlignment = Alignment.TopCenter
                 ) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState()),
+                            .verticalScroll(rememberScrollState())
+                            .weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SearchableDropdownMenu(
-                            items = manageFamiliesState.families.toMutableList(),
+                            items = manageUsersState.users.toMutableList(),
                             modifier = Modifier.padding(10.dp),
-                            selectedItem =
-                            if (nameState.isNotEmpty()) nameState else "Select User",
-                        ) {
-                            it as Family
-                            manageFamiliesState.selectedFamily = it
-                            nameState = it.familyName ?: ""
+                            selectedItem = usernameState.ifEmpty { "Select User" },
+                        ) {selectedUser->
+                            selectedUser as User
+                            manageUsersState.selectedUser = selectedUser
+                            usernameState = selectedUser.userUsername ?: ""
+                            passwordState = selectedUser.userPassword ?: ""
                         }
 
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = usernameState,
                             label = "Username",
                             placeHolder = "Enter Username"
                         ) {
-                            nameState = it
-                            manageFamiliesState.selectedFamily.familyName = it
+                            usernameState = it
+                            manageUsersState.selectedUser.userUsername = it
+                        }
+
+                        UITextField(
+                            modifier = Modifier.padding(10.dp),
+                            defaultValue = passwordState,
+                            label = "Password",
+                            placeHolder = "Enter Password",
+                            keyboardType = KeyboardType.Password
+                        ) {
+                            passwordState = it
+                            manageUsersState.selectedUser.userPassword = it
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .padding(10.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            UiVerticalCheckBox(
+                                modifier = Modifier.weight(.5f),
+                                label = "POS Mode",
+                                checked = posModeState
+                            ) {
+                                posModeState = it
+                                tableModeState = !it
+                            }
+
+                            UiVerticalCheckBox(
+                                modifier = Modifier.weight(.5f),
+                                label = "Table Mode",
+                                checked = tableModeState
+                            ) {
+                                tableModeState = it
+                                posModeState = !it
+                            }
                         }
 
                         Row(
@@ -131,7 +191,7 @@ fun ManageFamiliesView(
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = { viewModel.saveFamily() }
+                                onClick = { viewModel.saveUser() }
                             ) {
                                 Text("Save")
                             }
@@ -141,7 +201,7 @@ fun ManageFamiliesView(
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = { viewModel.deleteSelectedFamily() }
+                                onClick = { viewModel.deleteSelectedUser() }
                             ) {
                                 Text("Delete")
                             }
@@ -163,7 +223,15 @@ fun ManageFamiliesView(
             }
         }
         LoadingIndicator(
-            show = manageFamiliesState.isLoading
+            show = manageUsersState.isLoading
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ManageUsersViewPreview() {
+    CollectionsStoreTheme {
+        ManageUsersView()
     }
 }

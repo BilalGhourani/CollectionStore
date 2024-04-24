@@ -58,4 +58,8 @@ object Utils {
     fun generateRandomUuidString(): String {
         return UUID.randomUUID().toString()
     }
+
+    fun generateNameFromUsername(username: String): String {
+        return username.replace("_", " ")
+    }
 }

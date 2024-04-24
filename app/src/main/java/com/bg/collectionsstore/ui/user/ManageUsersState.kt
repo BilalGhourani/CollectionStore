@@ -1,4 +1,4 @@
-package com.bg.collectionsstore.ui.User
+package com.bg.collectionsstore.ui.user
 
 import com.bg.collectionsstore.data.User.User
 

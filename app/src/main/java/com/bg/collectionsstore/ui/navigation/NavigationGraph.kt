@@ -8,9 +8,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bg.collectionsstore.ui.Family.ManageFamiliesView
+import com.bg.collectionsstore.ui.family.ManageFamiliesView
 import com.bg.collectionsstore.ui.Item.ManageItemsView
-import com.bg.collectionsstore.ui.User.ManageUsersView
+import com.bg.collectionsstore.ui.user.ManageUsersView
 import com.bg.collectionsstore.ui.home.HomeView
 import com.bg.collectionsstore.ui.home.components.CollectionsView
 import com.bg.collectionsstore.ui.login.LoginView

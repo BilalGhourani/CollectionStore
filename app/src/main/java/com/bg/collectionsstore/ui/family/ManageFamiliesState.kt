@@ -1,7 +1,6 @@
-package com.bg.collectionsstore.ui.Family
+package com.bg.collectionsstore.ui.family
 
 import com.bg.collectionsstore.data.Family.Family
-import com.bg.collectionsstore.data.User.User
 
 data class ManageFamiliesState(
     val families: MutableList<Family> = mutableListOf(),
