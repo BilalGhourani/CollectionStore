@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ManageFamiliesViewModel @Inject constructor(
     private val familyRepository: FamilyRepository,
-    private val companyRepository: CompanyRepository,
+    private val companyRepository: CompanyRepository
 ) : ViewModel() {
 
     private val _manageFamiliesState = MutableStateFlow(ManageFamiliesState())
@@ -52,7 +52,7 @@ class ManageFamiliesViewModel @Inject constructor(
         })
     }
 
-    private fun fetchCompanies() {
+    private suspend fun fetchCompanies() {
         companyRepository.getAllCompanies(object : OnResult {
             override fun onSuccess(result: Any) {
                 val listOfCompanies = mutableListOf<Company>()

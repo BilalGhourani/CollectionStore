@@ -31,7 +31,7 @@ class ManageCompaniesViewModel @Inject constructor(
         }
     }
 
-    private fun fetchCompanies() {
+    private suspend fun fetchCompanies() {
         companyRepository.getAllCompanies(object : OnResult {
             override fun onSuccess(result: Any) {
                 val listOfCompanies = mutableListOf<Company>()

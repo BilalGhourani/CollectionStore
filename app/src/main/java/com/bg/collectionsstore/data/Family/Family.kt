@@ -45,6 +45,11 @@ data class Family(
     constructor() : this("")
 
     @Exclude
+    override fun getId(): String {
+        return familyId
+    }
+
+    @Exclude
     override fun getName(): String {
         return familyName ?: ""
     }

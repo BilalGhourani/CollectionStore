@@ -2,6 +2,8 @@ package com.bg.collectionsstore.ui.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bg.collectionsstore.data.Company.Company
+import com.bg.collectionsstore.data.Company.CompanyRepository
 import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.data.User.UserRepository
 import com.bg.collectionsstore.interfaces.OnResult
@@ -15,37 +17,60 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManageUsersViewModel @Inject constructor(
-    private val repository: UserRepository
+    private val userRepository: UserRepository,
+    private val companyRepository: CompanyRepository
 ) : ViewModel() {
 
     private val _manageUsersState = MutableStateFlow(ManageUsersState())
     val manageUsersState: MutableStateFlow<ManageUsersState> = _manageUsersState
 
     init {
-        fetchUsers()
+        viewModelScope.launch(Dispatchers.IO) {
+            fetchUsers()
+            fetchCompanies()
+        }
     }
 
-    private fun fetchUsers() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllUsers(object : OnResult {
-                override fun onSuccess(result: Any) {
-                    val listOfUsers = mutableListOf<User>()
-                    (result as List<User>).forEach {
-                        listOfUsers.add(it)
-                    }
-                    viewModelScope.launch(Dispatchers.Main) {
-                        manageUsersState.value = manageUsersState.value.copy(
-                            users = listOfUsers
-                        )
-                    }
+    private suspend fun fetchUsers() {
+        userRepository.getAllUsers(object : OnResult {
+            override fun onSuccess(result: Any) {
+                val listOfUsers = mutableListOf<User>()
+                (result as List<User>).forEach {
+                    listOfUsers.add(it)
                 }
-
-                override fun onFailure(message: String) {
-
+                viewModelScope.launch(Dispatchers.Main) {
+                    manageUsersState.value = manageUsersState.value.copy(
+                        users = listOfUsers
+                    )
                 }
+            }
 
-            })
-        }
+            override fun onFailure(message: String) {
+
+            }
+
+        })
+    }
+
+    private suspend fun fetchCompanies() {
+        companyRepository.getAllCompanies(object : OnResult {
+            override fun onSuccess(result: Any) {
+                val listOfCompanies = mutableListOf<Company>()
+                (result as List<Company>).forEach {
+                    listOfCompanies.add(it)
+                }
+                viewModelScope.launch(Dispatchers.Main) {
+                    manageUsersState.value = manageUsersState.value.copy(
+                        companies = listOfCompanies
+                    )
+                }
+            }
+
+            override fun onFailure(message: String) {
+
+            }
+
+        })
     }
 
     fun saveUser() {
@@ -84,9 +109,9 @@ class ManageUsersViewModel @Inject constructor(
                 if (it.userDocumentId.isNullOrEmpty()) {
                     it.userId = Utils.generateRandomUuidString()
                     it.userName = Utils.generateNameFromUsername(user.userUsername!!)
-                    repository.insert(it, callback)
+                    userRepository.insert(it, callback)
                 } else {
-                    repository.update(it, callback)
+                    userRepository.update(it, callback)
                 }
             }
         }
@@ -107,7 +132,7 @@ class ManageUsersViewModel @Inject constructor(
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            repository.delete(user, object : OnResult {
+            userRepository.delete(user, object : OnResult {
                 override fun onSuccess(result: Any) {
                     val users = manageUsersState.value.users
                     val position =

@@ -77,6 +77,11 @@ data class User(
     constructor() : this("")
 
     @Exclude
+    override fun getId(): String {
+        return userId
+    }
+
+    @Exclude
     override fun getName(): String {
         return userName ?: ""
     }

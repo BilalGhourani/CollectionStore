@@ -77,7 +77,7 @@ data class Currency(
 
     @Exclude
     override fun getId(): String {
-        return currencyId ?: ""
+        return currencyId
     }
 
     @Exclude

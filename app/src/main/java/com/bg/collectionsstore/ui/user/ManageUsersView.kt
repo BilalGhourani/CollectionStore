@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.bg.collectionsstore.data.Company.Company
 import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.ui.common.LoadingIndicator
 import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
@@ -64,6 +65,7 @@ fun ManageUsersView(
     val manageUsersState: ManageUsersState by viewModel.manageUsersState.collectAsState(
         ManageUsersState()
     )
+    val usernameFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(manageUsersState.warning) {
@@ -109,10 +111,12 @@ fun ManageUsersView(
                     .padding(it)
                     .background(color = Color.Transparent)
             ) {
-                var posModeState by remember { mutableStateOf(true) }
-                var tableModeState by remember { mutableStateOf(false) }
+                var nameState by remember { mutableStateOf("") }
                 var usernameState by remember { mutableStateOf("") }
                 var passwordState by remember { mutableStateOf("") }
+                var companyIdState by remember { mutableStateOf("") }
+                var posModeState by remember { mutableStateOf(true) }
+                var tableModeState by remember { mutableStateOf(false) }
                 Column(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -128,11 +132,22 @@ fun ManageUsersView(
                             items = manageUsersState.users.toMutableList(),
                             modifier = Modifier.padding(10.dp),
                             label = usernameState.ifEmpty { "Select User" },
-                        ) {selectedUser->
+                        ) { selectedUser ->
                             selectedUser as User
                             manageUsersState.selectedUser = selectedUser
                             usernameState = selectedUser.userUsername ?: ""
                             passwordState = selectedUser.userPassword ?: ""
+                        }
+
+                        UITextField(
+                            modifier = Modifier.padding(10.dp),
+                            defaultValue = usernameState,
+                            label = "Name",
+                            placeHolder = "Enter Name",
+                            onAction = { usernameFocusRequester.requestFocus() }
+                        ) {
+                            nameState = it
+                            manageUsersState.selectedUser.userName = it
                         }
 
                         UITextField(
@@ -159,6 +174,18 @@ fun ManageUsersView(
                             manageUsersState.selectedUser.userPassword = it
                         }
 
+                        SearchableDropdownMenu(
+                            items = manageUsersState.companies.toMutableList(),
+                            modifier = Modifier.padding(10.dp),
+                            label = "Select Tax Currency",
+                            selectedId = companyIdState
+                        ) { company ->
+                            company as Company
+                            companyIdState = company.companyId
+                            manageUsersState.selectedUser.userCompanyId =
+                                company.companyId
+                        }
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -173,6 +200,8 @@ fun ManageUsersView(
                             ) {
                                 posModeState = it
                                 tableModeState = !it
+                                manageUsersState.selectedUser.userPosMode = posModeState
+                                manageUsersState.selectedUser.userTableMode = tableModeState
                             }
 
                             UiVerticalCheckBox(
@@ -182,6 +211,8 @@ fun ManageUsersView(
                             ) {
                                 tableModeState = it
                                 posModeState = !it
+                                manageUsersState.selectedUser.userPosMode = posModeState
+                                manageUsersState.selectedUser.userTableMode = tableModeState
                             }
                         }
 

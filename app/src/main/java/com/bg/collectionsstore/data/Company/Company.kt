@@ -156,6 +156,11 @@ data class Company(
     constructor() : this("")
 
     @Exclude
+    override fun getId(): String {
+        return companyId
+    }
+
+    @Exclude
     override fun getName(): String {
         return companyName ?: ""
     }
