@@ -162,9 +162,9 @@ fun LoginView(
                     }
                 }
             }
-            LoadingIndicator(
-                show = loginState.isLoading
-            )
         }
+        LoadingIndicator(
+            show = loginState.isLoading
+        )
     }
 }
