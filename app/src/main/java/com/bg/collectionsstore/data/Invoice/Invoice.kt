@@ -2,7 +2,10 @@ package com.bg.collectionsstore.data.Invoice
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.bg.collectionsstore.data.DataModel
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import java.util.Date
 
@@ -17,13 +20,17 @@ data class Invoice(
     @get:PropertyName("in_id")
     var invoiceId: String,
 
+    @Ignore
+    @get:Exclude
+    var invoiceDocumentId: String? = null,
+
     /**
      * related Invoice header id
      * */
     @ColumnInfo(name = "in_hi_id")
     @set:PropertyName("in_hi_id")
     @get:PropertyName("in_hi_id")
-    var invoiceHiId: String? = null,
+    var invoiceHeaderId: String? = null,
 
     /**
      * Invoice item id
@@ -137,4 +144,32 @@ data class Invoice(
     @get:PropertyName("in_extraname")
     var invoicExtraName: String? = null,
 
-    )
+    ) : DataModel() {
+    constructor() : this("")
+
+    @Exclude
+    override fun getName(): String {
+        return ""
+    }
+
+    @Exclude
+    fun getMap(): Map<String, Any?> {
+        return mapOf(
+            "in_hi_id" to invoiceHeaderId,
+            "in_it_id" to invoiceItemId,
+            "in_qty" to invoiceQuantity,
+            "in_price" to invoicePrice,
+            "in_disc" to invoiceDiscount,
+            "in_discamt" to invoiceDiscamt,
+            "in_tax" to invoiceTax,
+            "in_tax1" to invoiceTax1,
+            "in_tax2" to invoiceTax2,
+            "in_note" to invoicNote,
+            "in_cost" to invoicCost,
+            "in_remqty" to invoicRemQty,
+            "in_timestamp" to invoicTimeStamp,
+            "in_userstamp" to invoicUserStamp,
+            "in_extraname" to invoicExtraName,
+        )
+    }
+}

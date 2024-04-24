@@ -52,7 +52,8 @@ data class Family(
     @Exclude
     fun getMap(): Map<String, Any?> {
         return mapOf(
-            "fa_name" to familyName
+            "fa_name" to familyName,
+            "fa_cmp_id" to familyCompanyId
         )
     }
 }

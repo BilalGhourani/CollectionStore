@@ -2,8 +2,10 @@ package com.bg.collectionsstore.data.ThirdParty
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.bg.collectionsstore.data.DataModel
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import java.util.Date
 
@@ -17,6 +19,10 @@ data class ThirdParty(
     @set:PropertyName("tp_id")
     @get:PropertyName("tp_id")
     var thirdPartyId: String,
+
+    @Ignore
+    @get:Exclude
+    var thirdPartyDocumentId: String? = null,
 
     /**
      * Third Party name
@@ -68,14 +74,6 @@ data class ThirdParty(
     var thirdPartyAddress: String? = null,
 
     /**
-     * Third Party date
-     * */
-    @ColumnInfo(name = "tp_date")
-    @set:PropertyName("tp_date")
-    @get:PropertyName("tp_date")
-    var thirdPartyDate: String? = null,
-
-    /**
      * Third Party time stamp
      * */
     @ColumnInfo(name = "tp_timestamp")
@@ -92,7 +90,24 @@ data class ThirdParty(
     var thirdPartyUserStamp: String? = null,
 
     ) : DataModel() {
+    constructor() : this("")
+
+    @Exclude
     override fun getName(): String {
         return thirdPartyName ?: ""
+    }
+
+    @Exclude
+    fun getMap(): Map<String, Any?> {
+        return mapOf(
+            "tp_name" to thirdPartyName,
+            "tp_fn" to thirdPartyFn,
+            "tp_cmp_id" to thirdPartyCompId,
+            "tp_phone1" to thirdPartyPhone1,
+            "tp_phone2" to thirdPartyPhone2,
+            "tp_address" to thirdPartyAddress,
+            "tp_timestamp" to thirdPartyTimeStamp,
+            "tp_userstamp" to thirdPartyUserStamp,
+        )
     }
 }

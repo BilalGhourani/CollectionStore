@@ -2,7 +2,10 @@ package com.bg.collectionsstore.data.InvoiceHeader
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.bg.collectionsstore.data.DataModel
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import java.util.Date
 
@@ -16,6 +19,10 @@ data class InvoiceHeader(
     @set:PropertyName("hi_id")
     @get:PropertyName("hi_id")
     var invoiceHeadId: String,
+
+    @Ignore
+    @get:Exclude
+    var invoiceHeadDocumentId: String? = null,
 
     /**
      * related Invoice header id
@@ -210,4 +217,41 @@ data class InvoiceHeader(
     var invoicHeadUserStamp: String? = null,
 
 
-    )
+    ): DataModel() {
+    constructor() : this("")
+
+    @Exclude
+    override fun getName(): String {
+        return ""
+    }
+
+    @Exclude
+    fun getMap(): Map<String, Any?> {
+        return mapOf(
+            "hi_cmp_id" to invoiceHeadCompId,
+            "hi_date" to invoiceHeadDate,
+            "hi_orderno" to invoiceHeadOrderNo,
+            "hi_tt_code" to invoiceHeadTtCode,
+            "hi_transno" to invoiceHeadTransNo,
+            "hi_status" to invoiceHeadStatus,
+            "hi_note" to invoiceHeadNote,
+            "hi_tp_name" to invoiceHeadThirdPartyName,
+            "hi_cashname" to invoiceHeadCashName,
+            "hi_grossamt" to invoicHeadGrossmont,
+            "hi_disc" to invoiceHeadDiscount,
+            "hi_discamt" to invoiceHeadDiscamt,
+            "hi_taxamt" to invoicHeadTaxAmt,
+            "hi_tax1amt" to invoicHeadTax1Amt,
+            "hi_tax2amt" to invoicHeadTax2Amt,
+            "hi_totaltax" to invoicHeadTotalTax,
+            "hi_total" to invoicHeadTotal,
+            "hi_total1" to invoicHeadTotal1,
+            "hi_rates" to invoicHeadRate,
+            "hi_ta_name" to invoicHeadTaName,
+            "hi_clientscount" to invoicHeadClientsCount,
+            "hi_change" to invoicHeadChange,
+            "hi_timestamp" to invoicHeadTimeStamp,
+            "hi_userstamp" to invoicHeadUserStamp,
+        )
+    }
+}

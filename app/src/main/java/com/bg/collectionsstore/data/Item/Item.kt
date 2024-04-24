@@ -2,8 +2,10 @@ package com.bg.collectionsstore.data.Item
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.bg.collectionsstore.data.DataModel
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import java.util.Date
 
@@ -17,6 +19,26 @@ data class Item(
     @set:PropertyName("it_id")
     @get:PropertyName("it_id")
     var itemId: String,
+
+    @Ignore
+    @get:Exclude
+    var itemDocumentId: String? = null,
+
+    /**
+     * Item name
+     * */
+    @ColumnInfo(name = "it_cmp_id")
+    @set:PropertyName("it_cmp_id")
+    @get:PropertyName("it_cmp_id")
+    var itemCompId: String? = null,
+
+    /**
+     * Item name
+     * */
+    @ColumnInfo(name = "it_fa_id")
+    @set:PropertyName("it_fa_id")
+    @get:PropertyName("it_fa_id")
+    var itemFaId: String? = null,
 
     /**
      * Item name
@@ -131,7 +153,32 @@ data class Item(
     var itemTimeStamp: String? = null,
 
     ) : DataModel() {
+    constructor() : this("")
+
+    @Exclude
     override fun getName(): String {
         return itemName ?: ""
+    }
+
+    @Exclude
+    fun getMap(): Map<String, Any?> {
+        return mapOf(
+            "it_cmp_id" to itemCompId,
+            "it_fa_id" to itemFaId,
+            "it_name" to itemName,
+            "it_barcode" to itemBarcode,
+            "it_unitprice" to itemUnitPrice,
+            "it_tax" to itemTax,
+            "it_tax1" to itemTax1,
+            "it_tax2" to itemTax2,
+            "it_pp_id" to itemPosPrinter,
+            "it_openqty" to itemOpenQty,
+            "it_opencost" to itemOpenCost,
+            "it_pos" to itemPos,
+            "it_btncolor" to itemBtnColor,
+            "it_btntextcolor" to itemBtnTextColor,
+            "it_userstamp" to itemUserStamp,
+            "it_timestamp" to itemTimeStamp,
+        )
     }
 }

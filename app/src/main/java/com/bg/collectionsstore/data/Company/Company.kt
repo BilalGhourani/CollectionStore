@@ -51,18 +51,18 @@ data class Company(
     /**
      * Company VAT Regno
      * */
-    @ColumnInfo(name = "cmp_vatregno")
-    @set:PropertyName("cmp_vatregno")
-    @get:PropertyName("cmp_vatregno")
-    var companyVatRegno: String? = null,
+    @ColumnInfo(name = "cmp_taxregno")
+    @set:PropertyName("cmp_taxregno")
+    @get:PropertyName("cmp_taxregno")
+    var companyTaxRegno: String? = null,
 
     /**
      * Company VAT
      * */
-    @ColumnInfo(name = "cmp_vat")
-    @set:PropertyName("cmp_vat")
-    @get:PropertyName("cmp_vat")
-    var companyVat: Double? = null,
+    @ColumnInfo(name = "cmp_tax")
+    @set:PropertyName("cmp_tax")
+    @get:PropertyName("cmp_tax")
+    var companyTax: Double? = null,
 
     /**
      * Company currency code tax
@@ -163,7 +163,20 @@ data class Company(
     @Exclude
     fun getMap(): Map<String, Any?> {
         return mapOf(
-            /*"" to userName,*/
+            "cmp_name" to companyName,
+            "cmp_phone" to companyPhone,
+            "cmp_address" to companyAddress,
+            "cmp_taxregno" to companyTaxRegno,
+            "cmp_tax" to companyTax,
+            "cmp_cur_codetax" to companyCurCodeTax,
+            "cmp_email" to companyEmail,
+            "cmp_web" to companyWeb,
+            "cmp_logo" to companyLogo,
+            "cmp_ss" to companySS,
+            "cmp_tax1" to companyTax1,
+            "cmp_tax1regno" to companyTax1Regno,
+            "cmp_tax2" to companyTax2,
+            "cmp_tax2regno" to companyTax2Regno,
         )
     }
 }

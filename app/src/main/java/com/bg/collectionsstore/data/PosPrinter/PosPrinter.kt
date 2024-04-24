@@ -2,8 +2,10 @@ package com.bg.collectionsstore.data.PosPrinter
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.bg.collectionsstore.data.DataModel
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import java.util.Date
 
@@ -18,13 +20,17 @@ data class PosPrinter(
     @get:PropertyName("pp_id")
     var posPrinterId: String,
 
+    @Ignore
+    @get:Exclude
+    var posPrinteDocumentId: String? = null,
+
     /**
      * related  POS Printer type company id
      * */
     @ColumnInfo(name = "pp_cmp_id")
     @set:PropertyName("pp_cmp_id")
     @get:PropertyName("pp_cmp_id")
-    var posPrinterCompId: String,
+    var posPrinterCompId: String? = null,
 
     /**
      *   POS Printer name
@@ -32,7 +38,7 @@ data class PosPrinter(
     @ColumnInfo(name = "pp_name")
     @set:PropertyName("pp_name")
     @get:PropertyName("pp_name")
-    var posPrinterName: String,
+    var posPrinterName: String? = null,
 
     /**
      *   POS Printer printer
@@ -40,7 +46,7 @@ data class PosPrinter(
     @ColumnInfo(name = "pp_printer")
     @set:PropertyName("pp_printer")
     @get:PropertyName("pp_printer")
-    var posPrinterPrinter: String,
+    var posPrinterPrinter: String? = null,
 
 
     /**
@@ -49,11 +55,24 @@ data class PosPrinter(
     @ColumnInfo(name = "pp_type")
     @set:PropertyName("pp_type")
     @get:PropertyName("pp_type")
-    var posPrinterType: String,
+    var posPrinterType: String? = null,
 
 
     ) : DataModel() {
+    constructor() : this("")
+
+    @Exclude
     override fun getName(): String {
         return posPrinterName ?: ""
+    }
+
+    @Exclude
+    fun getMap(): Map<String, Any?> {
+        return mapOf(
+            "pp_cmp_id" to posPrinterCompId,
+            "pp_name" to posPrinterName,
+            "pp_printer" to posPrinterPrinter,
+            "pp_type" to posPrinterType,
+        )
     }
 }

@@ -60,67 +60,20 @@ data class User(
     /**
      * related Code
      * */
-    @ColumnInfo(name = "usr_code")
-    @set:PropertyName("usr_code")
-    @get:PropertyName("usr_code")
-    var userCode: String? = null,
+    @ColumnInfo(name = "usr_posmode")
+    @set:PropertyName("usr_posmode")
+    @get:PropertyName("usr_posmode")
+    var userPosMode: Boolean? = true,
 
     /**
      * related Email
      * */
-    @ColumnInfo(name = "usr_email")
-    @set:PropertyName("usr_email")
-    @get:PropertyName("usr_email")
-    var userEmail: String? = null,
+    @ColumnInfo(name = "usr_tablemode")
+    @set:PropertyName("usr_tablemode")
+    @get:PropertyName("usr_tablemode")
+    var userTableMode: Boolean? = false,
 
-    /**
-     * related Expiry
-     * */
-    @ColumnInfo(name = "usr_expiry")
-    @set:PropertyName("usr_expiry")
-    @get:PropertyName("usr_expiry")
-    var userExpiry: String? = null,
-
-    /**
-     * related group description
-     * */
-    @ColumnInfo(name = "usr_grp_desc")
-    @set:PropertyName("usr_grp_desc")
-    @get:PropertyName("usr_grp_desc")
-    var userGrpDesc: String? = null,
-
-    /**
-     * related is inactive
-     * */
-    @ColumnInfo(name = "usr_inactive")
-    @set:PropertyName("usr_inactive")
-    @get:PropertyName("usr_inactive")
-    var userInactive: String? = null,
-
-    /**
-     * related Start Date
-     * */
-    @ColumnInfo(name = "usr_startdate")
-    @set:PropertyName("usr_startdate")
-    @get:PropertyName("usr_startdate")
-    var userStartDate: String? = null,
-
-    /**
-     * related tp name
-     * */
-    @ColumnInfo(name = "usr_tp_name")
-    @set:PropertyName("usr_tp_name")
-    @get:PropertyName("usr_tp_name")
-    var userTpName: String? = null,
-
-    /**
-     * related Profile
-     * */
-    @ColumnInfo(name = "usr_userprofile")
-    @set:PropertyName("usr_userprofile")
-    @get:PropertyName("usr_userprofile")
-    var userProfile: String? = null,
-) : DataModel() {
+    ) : DataModel() {
     constructor() : this("")
 
     @Exclude
@@ -131,18 +84,12 @@ data class User(
     @Exclude
     fun getMap(): Map<String, Any?> {
         return mapOf(
-            /*"usr_name" to userName,*/
+            "usr_name" to userName,
+            "usr_cmp_id" to userCompanyId,
             "usr_password" to userPassword,
             "usr_username" to userUsername,
-            /*"usr_cmp_id" to userCompanyId,
-            "usr_code" to userCode,
-            "usr_email" to userEmail,
-            "usr_expiry" to userExpiry,
-            "usr_grp_desc" to userGrpDesc,
-            "usr_inactive" to userInactive,
-            "usr_startdate" to userStartDate,
-            "usr_tp_name" to userTpName,
-            "usr_userprofile" to userProfile,*/
+            "usr_posmode" to userPosMode,
+            "usr_tablemode" to userTableMode,
         )
     }
 }
