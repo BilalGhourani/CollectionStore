@@ -128,11 +128,11 @@ fun ManageUsersView(
                         SearchableDropdownMenu(
                             items = manageUsersState.users.toMutableList(),
                             modifier = Modifier.padding(10.dp),
-                            selectedItem = if(usernameState.isNotEmpty()) usernameState else "Select User",
+                            selectedItem = if (usernameState.isNotEmpty()) usernameState else "Select User",
                         ) {
                             it as User
                             manageUsersState.selectedUser = it
-                            usernameState = it.userName ?: ""
+                            usernameState = it.userUsername ?: ""
                             passwordState = it.userPassword ?: ""
                         }
 
@@ -143,7 +143,7 @@ fun ManageUsersView(
                             placeHolder = "Enter Username"
                         ) {
                             usernameState = it
-                            manageUsersState.selectedUser.userName = it
+                            manageUsersState.selectedUser.userUsername = it
                         }
 
                         UITextField(

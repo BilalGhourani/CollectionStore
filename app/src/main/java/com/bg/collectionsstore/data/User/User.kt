@@ -131,10 +131,10 @@ data class User(
     @Exclude
     fun getMap(): Map<String, Any?> {
         return mapOf(
-            "usr_name" to userName,
+            /*"usr_name" to userName,*/
             "usr_password" to userPassword,
-            /*"usr_username" to userUsername,
-            "usr_cmp_id" to userCompanyId,
+            "usr_username" to userUsername,
+            /*"usr_cmp_id" to userCompanyId,
             "usr_code" to userCode,
             "usr_email" to userEmail,
             "usr_expiry" to userExpiry,
