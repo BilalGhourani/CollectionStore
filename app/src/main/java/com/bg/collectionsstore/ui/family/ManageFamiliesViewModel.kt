@@ -2,6 +2,8 @@ package com.bg.collectionsstore.ui.family
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bg.collectionsstore.data.Company.Company
+import com.bg.collectionsstore.data.Company.CompanyRepository
 import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Family.FamilyRepository
 import com.bg.collectionsstore.interfaces.OnResult
@@ -15,37 +17,60 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManageFamiliesViewModel @Inject constructor(
-    private val repository: FamilyRepository
+    private val familyRepository: FamilyRepository,
+    private val companyRepository: CompanyRepository,
 ) : ViewModel() {
 
     private val _manageFamiliesState = MutableStateFlow(ManageFamiliesState())
     val manageFamiliesState: MutableStateFlow<ManageFamiliesState> = _manageFamiliesState
 
     init {
-        fetchFamilies()
+        viewModelScope.launch(Dispatchers.IO) {
+            fetchFamilies()
+            fetchCompanies()
+        }
     }
 
     private fun fetchFamilies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllFamilies(object : OnResult {
-                override fun onSuccess(result: Any) {
-                    val listOfFamilies = mutableListOf<Family>()
-                    (result as List<Family>).forEach {
-                        listOfFamilies.add(it)
-                    }
-                    viewModelScope.launch(Dispatchers.Main) {
-                        manageFamiliesState.value = manageFamiliesState.value.copy(
-                            families = listOfFamilies
-                        )
-                    }
+        familyRepository.getAllFamilies(object : OnResult {
+            override fun onSuccess(result: Any) {
+                val listOfFamilies = mutableListOf<Family>()
+                (result as List<Family>).forEach {
+                    listOfFamilies.add(it)
                 }
-
-                override fun onFailure(message: String) {
-
+                viewModelScope.launch(Dispatchers.Main) {
+                    manageFamiliesState.value = manageFamiliesState.value.copy(
+                        families = listOfFamilies
+                    )
                 }
+            }
 
-            })
-        }
+            override fun onFailure(message: String) {
+
+            }
+
+        })
+    }
+
+    private fun fetchCompanies() {
+        companyRepository.getAllCompanies(object : OnResult {
+            override fun onSuccess(result: Any) {
+                val listOfCompanies = mutableListOf<Company>()
+                (result as List<Company>).forEach {
+                    listOfCompanies.add(it)
+                }
+                viewModelScope.launch(Dispatchers.Main) {
+                    manageFamiliesState.value = manageFamiliesState.value.copy(
+                        companies = listOfCompanies
+                    )
+                }
+            }
+
+            override fun onFailure(message: String) {
+
+            }
+
+        })
     }
 
     fun saveFamily() {
@@ -79,13 +104,13 @@ class ManageFamiliesViewModel @Inject constructor(
             }
 
         }
-        manageFamiliesState.value.selectedFamily?.let {
+        manageFamiliesState.value.selectedFamily.let {
             CoroutineScope(Dispatchers.IO).launch {
                 if (it.familyDocumentId.isNullOrEmpty()) {
                     it.familyId = Utils.generateRandomUuidString()
-                    repository.insert(it, callback)
+                    familyRepository.insert(it, callback)
                 } else {
-                    repository.update(it, callback)
+                    familyRepository.update(it, callback)
                 }
             }
         }
@@ -106,11 +131,11 @@ class ManageFamiliesViewModel @Inject constructor(
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            repository.delete(family, object : OnResult {
+            familyRepository.delete(family, object : OnResult {
                 override fun onSuccess(result: Any) {
                     val families = manageFamiliesState.value.families
                     val position =
-                        families.indexOfFirst { family.familyId.equals(it.familyId) }
+                        families.indexOfFirst { family.familyId.equals(it.familyId, ignoreCase = true) }
                     if (position >= 0) {
                         families.removeAt(position)
                     }

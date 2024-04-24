@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bg.collectionsstore.data.Company.Company
 import com.bg.collectionsstore.data.Company.CompanyRepository
+import com.bg.collectionsstore.data.Currency.Currency
+import com.bg.collectionsstore.data.Currency.CurrencyRepository
 import com.bg.collectionsstore.interfaces.OnResult
 import com.bg.collectionsstore.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,37 +17,60 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManageCompaniesViewModel @Inject constructor(
-    private val repository: CompanyRepository
+    private val companyRepository: CompanyRepository,
+    private val currencyRepository: CurrencyRepository
 ) : ViewModel() {
 
     private val _manageCompaniesState = MutableStateFlow(ManageCompaniesState())
     val manageCompaniesState: MutableStateFlow<ManageCompaniesState> = _manageCompaniesState
 
     init {
-        fetchCompanies()
+        viewModelScope.launch(Dispatchers.IO) {
+            fetchCompanies()
+            fetchCurrencies()
+        }
     }
 
     private fun fetchCompanies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllCompanies(object : OnResult {
-                override fun onSuccess(result: Any) {
-                    val listOfCompanies = mutableListOf<Company>()
-                    (result as List<Company>).forEach {
-                        listOfCompanies.add(it)
-                    }
-                    viewModelScope.launch(Dispatchers.Main) {
-                        manageCompaniesState.value = manageCompaniesState.value.copy(
-                            companies = listOfCompanies
-                        )
-                    }
+        companyRepository.getAllCompanies(object : OnResult {
+            override fun onSuccess(result: Any) {
+                val listOfCompanies = mutableListOf<Company>()
+                (result as List<Company>).forEach {
+                    listOfCompanies.add(it)
                 }
-
-                override fun onFailure(message: String) {
-
+                viewModelScope.launch(Dispatchers.Main) {
+                    manageCompaniesState.value = manageCompaniesState.value.copy(
+                        companies = listOfCompanies
+                    )
                 }
+            }
 
-            })
-        }
+            override fun onFailure(message: String) {
+
+            }
+
+        })
+    }
+
+    private fun fetchCurrencies() {
+        currencyRepository.getAllCurrencies(object : OnResult {
+            override fun onSuccess(result: Any) {
+                val listOfCurrencies = mutableListOf<Currency>()
+                (result as List<Currency>).forEach {
+                    listOfCurrencies.add(it)
+                }
+                viewModelScope.launch(Dispatchers.Main) {
+                    manageCompaniesState.value = manageCompaniesState.value.copy(
+                        currencies = listOfCurrencies
+                    )
+                }
+            }
+
+            override fun onFailure(message: String) {
+
+            }
+
+        })
     }
 
     fun saveCompany() {
@@ -83,9 +108,9 @@ class ManageCompaniesViewModel @Inject constructor(
             CoroutineScope(Dispatchers.IO).launch {
                 if (it.companyDocumentId.isNullOrEmpty()) {
                     it.companyId = Utils.generateRandomUuidString()
-                    repository.insert(it, callback)
+                    companyRepository.insert(it, callback)
                 } else {
-                    repository.update(it, callback)
+                    companyRepository.update(it, callback)
                 }
             }
         }
@@ -106,8 +131,14 @@ class ManageCompaniesViewModel @Inject constructor(
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            repository.delete(company, object : OnResult {
+            companyRepository.delete(company, object : OnResult {
                 override fun onSuccess(result: Any) {
+                    val companies = manageCompaniesState.value.companies
+                    val position =
+                        companies.indexOfFirst { company.companyId.equals(it.companyId, ignoreCase = true) }
+                    if (position >= 0) {
+                        companies.removeAt(position)
+                    }
                     viewModelScope.launch(Dispatchers.Main) {
                         manageCompaniesState.value = manageCompaniesState.value.copy(
                             selectedCompany = result as Company,

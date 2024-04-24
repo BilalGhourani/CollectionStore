@@ -76,6 +76,11 @@ data class Currency(
     constructor() : this("")
 
     @Exclude
+    override fun getId(): String {
+        return currencyId ?: ""
+    }
+
+    @Exclude
     override fun getName(): String {
         return currencyName1 ?: ""
     }

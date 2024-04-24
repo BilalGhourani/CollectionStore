@@ -70,7 +70,7 @@ data class Company(
     @ColumnInfo(name = "cmp_cur_codetax")
     @set:PropertyName("cmp_cur_codetax")
     @get:PropertyName("cmp_cur_codetax")
-    var companyCurCodeTax: Double? = null,
+    var companyCurCodeTax: String? = null,
 
     /**
      * Company Up With Tax

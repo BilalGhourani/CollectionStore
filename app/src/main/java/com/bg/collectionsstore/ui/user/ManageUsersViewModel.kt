@@ -27,7 +27,6 @@ class ManageUsersViewModel @Inject constructor(
 
     private fun fetchUsers() {
         viewModelScope.launch(Dispatchers.IO) {
-            val listOfUsers = mutableListOf<User>()
             repository.getAllUsers(object : OnResult {
                 override fun onSuccess(result: Any) {
                     val listOfUsers = mutableListOf<User>()
@@ -80,7 +79,7 @@ class ManageUsersViewModel @Inject constructor(
             }
 
         }
-        manageUsersState.value.selectedUser?.let {
+        manageUsersState.value.selectedUser.let {
             CoroutineScope(Dispatchers.IO).launch {
                 if (it.userDocumentId.isNullOrEmpty()) {
                     it.userId = Utils.generateRandomUuidString()
@@ -110,6 +109,12 @@ class ManageUsersViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             repository.delete(user, object : OnResult {
                 override fun onSuccess(result: Any) {
+                    val users = manageUsersState.value.users
+                    val position =
+                        users.indexOfFirst { user.userId.equals(it.userId, ignoreCase = true) }
+                    if (position >= 0) {
+                        users.removeAt(position)
+                    }
                     viewModelScope.launch(Dispatchers.Main) {
                         manageUsersState.value = manageUsersState.value.copy(
                             selectedUser = result as User,

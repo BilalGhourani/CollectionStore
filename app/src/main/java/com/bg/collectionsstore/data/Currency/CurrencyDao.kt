@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.bg.collectionsstore.data.Company.Company
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,9 +17,17 @@ interface CurrencyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(currency: Currency)
 
+    // insert list of Currencies
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(order: List<Currency>)
+
     // Delete a Currency
     @Delete
     suspend fun delete(currency: Currency)
+
+    // Delete all Currencies
+    @Query("DELETE FROM currency")
+    suspend fun deleteAll()
 
     // Update a Currency
     @Update
@@ -31,8 +40,4 @@ interface CurrencyDao {
     // Get all Currencies as stream.
     @Query("SELECT * FROM `currency`")
     fun getAllCurrencies(): Flow<List<Currency>>
-
-    // get searched Currencies as stream.
-    @Query("SELECT * FROM `currency` WHERE cur_name1 LIKE '%' || :key || '%' OR cur_name2 LIKE '%' || :key || '%'")
-    fun searchForCurrencies(key: String): Flow<List<Currency>>
 }

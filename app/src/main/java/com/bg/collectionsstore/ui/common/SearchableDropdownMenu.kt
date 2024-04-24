@@ -53,12 +53,22 @@ import com.bg.collectionsstore.utils.Utils
 fun SearchableDropdownMenu(
     modifier: Modifier = Modifier,
     items: MutableList<DataModel> = mutableListOf(),
-    selectedItem: String = "",
+    label: String = "",
+    selectedId: String? = null,
     onSelectionChange: (DataModel) -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var searchText by remember { mutableStateOf(selectedItem) }
-    var selectedItem by remember { mutableStateOf(selectedItem) }
+    var searchText by remember { mutableStateOf(label) }
+    var selectedItemState by remember { mutableStateOf(label) }
+    LaunchedEffect(selectedId) {
+        if (selectedId.isNullOrEmpty()) {
+            items.forEach {
+                if (it.getId().equals(selectedId, ignoreCase = true)) {
+                    selectedItemState = it.getName()
+                }
+            }
+        }
+    }
 
     Box(modifier = modifier.fillMaxWidth()) {
         ExposedDropdownMenuBox(
@@ -69,7 +79,7 @@ fun SearchableDropdownMenu(
             }
         ) {
             TextField(
-                value = selectedItem,
+                value = selectedItemState,
                 onValueChange = { },
                 readOnly = true,
                 enabled = false,
@@ -83,7 +93,8 @@ fun SearchableDropdownMenu(
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                 }
             )
-            val filteredItems = items.filter { it.getName().contains(searchText, ignoreCase = true) }
+            val filteredItems =
+                items.filter { it.getName().contains(searchText, ignoreCase = true) }
             if (filteredItems.isNotEmpty()) {
                 DropdownMenu(
                     expanded = expanded,
@@ -109,7 +120,7 @@ fun SearchableDropdownMenu(
                             onClick = {
                                 onSelectionChange(item)
                                 searchText = text
-                                selectedItem = text
+                                selectedItemState = text
                                 expanded = false
                             })
                     }

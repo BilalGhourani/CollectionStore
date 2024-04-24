@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.bg.collectionsstore.data.Company.Company
 import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.ui.common.LoadingIndicator
 import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
@@ -83,6 +84,7 @@ fun ManageFamiliesView(
                     .background(color = Color.Transparent)
             ) {
                 var nameState by remember { mutableStateOf("") }
+                var companyIdState by remember { mutableStateOf("") }
                 Box(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -97,7 +99,7 @@ fun ManageFamiliesView(
                         SearchableDropdownMenu(
                             items = manageFamiliesState.families.toMutableList(),
                             modifier = Modifier.padding(10.dp),
-                            selectedItem =
+                            label =
                             if (nameState.isNotEmpty()) nameState else "Select User",
                         ) {
                             it as Family
@@ -108,11 +110,23 @@ fun ManageFamiliesView(
                         UITextField(
                             modifier = Modifier.padding(10.dp),
                             defaultValue = nameState,
-                            label = "Username",
-                            placeHolder = "Enter Username"
+                            label = "Name",
+                            placeHolder = "Enter Name"
                         ) {
                             nameState = it
                             manageFamiliesState.selectedFamily.familyName = it
+                        }
+
+                        SearchableDropdownMenu(
+                            items = manageFamiliesState.companies.toMutableList(),
+                            modifier = Modifier.padding(10.dp),
+                            label = "Select Tax Currency",
+                            selectedId = companyIdState
+                        ) { company ->
+                            company as Company
+                            companyIdState = company.companyId
+                            manageFamiliesState.selectedFamily.familyCompanyId =
+                                company.companyId
                         }
 
                         Row(

@@ -127,7 +127,7 @@ fun ManageUsersView(
                         SearchableDropdownMenu(
                             items = manageUsersState.users.toMutableList(),
                             modifier = Modifier.padding(10.dp),
-                            selectedItem = usernameState.ifEmpty { "Select User" },
+                            label = usernameState.ifEmpty { "Select User" },
                         ) {selectedUser->
                             selectedUser as User
                             manageUsersState.selectedUser = selectedUser
