@@ -16,9 +16,17 @@ interface CompanyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(company: Company)
 
+    // insert list of Companies
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(order: List<Company>)
+
     // Delete a Company
     @Delete
     suspend fun delete(company: Company)
+
+    // Delete all companies
+    @Query("DELETE FROM company")
+    suspend fun deleteAll()
 
     // Update a Company
     @Update

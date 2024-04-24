@@ -2,8 +2,10 @@ package com.bg.collectionsstore.data.Company
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.bg.collectionsstore.data.DataModel
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import org.jetbrains.annotations.NotNull
 
@@ -17,6 +19,10 @@ data class Company(
     @set:PropertyName("cmp_id")
     @get:PropertyName("cmp_id")
     var companyId: String,
+
+    @Ignore
+    @get:Exclude
+    var companyDocumentId: String? = null,
 
     /**
      * Company name
@@ -147,7 +153,17 @@ data class Company(
     var companyTax2Regno: String? = null,
 
     ) : DataModel() {
+    constructor() : this("")
+
+    @Exclude
     override fun getName(): String {
         return companyName ?: ""
+    }
+
+    @Exclude
+    fun getMap(): Map<String, Any?> {
+        return mapOf(
+            /*"" to userName,*/
+        )
     }
 }

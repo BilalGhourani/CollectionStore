@@ -3,6 +3,8 @@ package com.bg.collectionsstore.di
 import android.app.Application
 import androidx.room.Room
 import com.bg.collectionsstore.data.AppDatabase
+import com.bg.collectionsstore.data.Company.CompanyRepository
+import com.bg.collectionsstore.data.Company.CompanyRepositoryImpl
 import com.bg.collectionsstore.data.Family.FamilyRepository
 import com.bg.collectionsstore.data.Family.FamilyRepositoryImpl
 import com.bg.collectionsstore.data.Item.ItemRepository
@@ -45,6 +47,12 @@ object AppModule {
     @Singleton
     fun provideUserRepository(db: AppDatabase): UserRepository {
         return UserRepositoryImpl(db.userDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCompanyRepository(db: AppDatabase): CompanyRepository {
+        return CompanyRepositoryImpl(db.companyDao)
     }
 
 

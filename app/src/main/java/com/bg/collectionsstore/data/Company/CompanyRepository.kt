@@ -1,27 +1,24 @@
 package com.bg.collectionsstore.data.Company
 
-import com.bg.collectionsstore.data.Family.Family
-import kotlinx.coroutines.flow.Flow
+import com.bg.collectionsstore.interfaces.OnResult
 
 interface CompanyRepository {
 
     // suspend is a coroutine keyword,
     // instead of having a callback we can just wait till insert is done
-    suspend fun insert(company: Company)
+    suspend fun insert(company: Company, callback: OnResult? = null)
 
     // Delete a Company
-    suspend fun delete(company: Company)
+    suspend fun delete(company: Company, callback: OnResult? = null)
 
     // Update a Company
-    suspend fun update(company: Company)
+    suspend fun update(company: Company, callback: OnResult? = null)
 
     // Get Company by it's ID
     suspend fun getCompanyById(id: String): Company
 
     // Get all Companies logs as stream.
-    fun getAllCompanies(): Flow<List<Company>>
+    fun getAllCompanies(callback: OnResult? = null)
 
-    // Get searched Companies logs as stream.
-    fun searchForCompanies(key: String): Flow<List<Company>>
 
 }
