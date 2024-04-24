@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -123,15 +124,15 @@ fun ManageCompaniesView(
                 var phoneState by remember { mutableStateOf("") }
                 var addressState by remember { mutableStateOf("") }
                 var taxRegnoState by remember { mutableStateOf("") }
-                var taxState by remember { mutableStateOf(0.0) }
+                var taxState by remember { mutableDoubleStateOf(0.0) }
                 var curCodeTaxState by remember { mutableStateOf("") }
                 var emailState by remember { mutableStateOf("") }
                 var webState by remember { mutableStateOf("") }
                 var logoState by remember { mutableStateOf("") }
                 var ssState by remember { mutableStateOf(false) }
-                var tax1State by remember { mutableStateOf(0.0) }
+                var tax1State by remember { mutableDoubleStateOf(0.0) }
                 var tax1RegnoState by remember { mutableStateOf("") }
-                var tax2State by remember { mutableStateOf(0.0) }
+                var tax2State by remember { mutableDoubleStateOf(0.0) }
                 var tax2RegnoState by remember { mutableStateOf("") }
                 Column(
                     modifier = Modifier
