@@ -150,6 +150,7 @@ fun ManageCurrenciesView(
                                 defaultValue = curCode1State,
                                 label = "Cur1 Name",
                                 placeHolder = "Cur1 Name",
+                                focusRequester = curName1FocusRequester,
                                 onAction = { curCode2FocusRequester.requestFocus() }
                             ) { curName1 ->
                                 curName1State = curName1
@@ -171,6 +172,7 @@ fun ManageCurrenciesView(
                                 defaultValue = curCode2State,
                                 label = "Cur2 Code",
                                 placeHolder = "Cur2 Code",
+                                focusRequester = curCode2FocusRequester,
                                 onAction = { curName2FocusRequester.requestFocus() }
                             ) { curCode2 ->
                                 curCode2State = curCode2
@@ -184,6 +186,7 @@ fun ManageCurrenciesView(
                                 defaultValue = curCode2State,
                                 label = "Cur2 Name",
                                 placeHolder = "Cur2 Name",
+                                focusRequester = curName2FocusRequester,
                                 onAction = { rateFocusRequester.requestFocus() }
                             ) { curName2 ->
                                 curName2State = curName2
@@ -197,6 +200,7 @@ fun ManageCurrenciesView(
                             keyboardType = KeyboardType.Decimal,
                             label = "Rate",
                             placeHolder = "Enter Rate",
+                            focusRequester = rateFocusRequester,
                             imeAction = ImeAction.Done
                         ) { rateStr ->
                             val rate = rateStr.toDouble()

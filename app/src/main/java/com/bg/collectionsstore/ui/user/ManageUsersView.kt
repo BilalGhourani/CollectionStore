@@ -155,6 +155,7 @@ fun ManageUsersView(
                             defaultValue = usernameState,
                             label = "Username",
                             placeHolder = "Enter Username",
+                            focusRequester = usernameFocusRequester,
                             onAction = { passwordFocusRequester.requestFocus() }
                         ) {
                             usernameState = it
@@ -177,7 +178,7 @@ fun ManageUsersView(
                         SearchableDropdownMenu(
                             items = manageUsersState.companies.toMutableList(),
                             modifier = Modifier.padding(10.dp),
-                            label = "Select Tax Currency",
+                            label = "Select Company",
                             selectedId = companyIdState
                         ) { company ->
                             company as Company

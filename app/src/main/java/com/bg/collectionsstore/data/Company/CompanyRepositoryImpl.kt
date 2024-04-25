@@ -58,7 +58,7 @@ class CompanyRepositoryImpl(
         return companyDao.getCompanyById(id)
     }
 
-    override fun getAllCompanies(callback: OnResult?) {
+    override suspend fun getAllCompanies(callback: OnResult?) {
         val localCompanies = companyDao.getAllCompanies().asLiveData().value
         if (!localCompanies.isNullOrEmpty()) {
             callback?.onSuccess(localCompanies)

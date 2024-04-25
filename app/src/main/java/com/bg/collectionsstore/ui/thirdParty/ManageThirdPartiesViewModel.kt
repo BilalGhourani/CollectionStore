@@ -1,11 +1,11 @@
-package com.bg.collectionsstore.ui.family
+package com.bg.collectionsstore.ui.thirdParty
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bg.collectionsstore.data.Company.Company
 import com.bg.collectionsstore.data.Company.CompanyRepository
-import com.bg.collectionsstore.data.Family.Family
-import com.bg.collectionsstore.data.Family.FamilyRepository
+import com.bg.collectionsstore.data.ThirdParty.ThirdParty
+import com.bg.collectionsstore.data.ThirdParty.ThirdPartyRepository
 import com.bg.collectionsstore.interfaces.OnResult
 import com.bg.collectionsstore.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,31 +16,32 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ManageFamiliesViewModel @Inject constructor(
-    private val familyRepository: FamilyRepository,
+class ManageThirdPartiesViewModel @Inject constructor(
+    private val thirdPartyRepository: ThirdPartyRepository,
     private val companyRepository: CompanyRepository
 ) : ViewModel() {
 
-    private val _manageFamiliesState = MutableStateFlow(ManageFamiliesState())
-    val manageFamiliesState: MutableStateFlow<ManageFamiliesState> = _manageFamiliesState
+    private val _manageThirdPartiesState = MutableStateFlow(ManageThirdPartiesState())
+    val manageThirdPartiesState: MutableStateFlow<ManageThirdPartiesState> =
+        _manageThirdPartiesState
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            fetchFamilies()
+            fetchThirdParties()
             fetchCompanies()
         }
     }
 
-    private fun fetchFamilies() {
-        familyRepository.getAllFamilies(object : OnResult {
+    private suspend fun fetchThirdParties() {
+        thirdPartyRepository.getAllThirdParties(object : OnResult {
             override fun onSuccess(result: Any) {
-                val listOfFamilies = mutableListOf<Family>()
-                (result as List<Family>).forEach {
-                    listOfFamilies.add(it)
+                val listOfThirdParties = mutableListOf<ThirdParty>()
+                (result as List<ThirdParty>).forEach {
+                    listOfThirdParties.add(it)
                 }
                 viewModelScope.launch(Dispatchers.Main) {
-                    manageFamiliesState.value = manageFamiliesState.value.copy(
-                        families = listOfFamilies
+                    manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
+                        thirdParties = listOfThirdParties
                     )
                 }
             }
@@ -60,7 +61,7 @@ class ManageFamiliesViewModel @Inject constructor(
                     listOfCompanies.add(it)
                 }
                 viewModelScope.launch(Dispatchers.Main) {
-                    manageFamiliesState.value = manageFamiliesState.value.copy(
+                    manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
                         companies = listOfCompanies
                     )
                 }
@@ -73,23 +74,23 @@ class ManageFamiliesViewModel @Inject constructor(
         })
     }
 
-    fun saveFamily() {
-        val family = manageFamiliesState.value.selectedFamily
-        if (family.familyName.isNullOrEmpty() || family.familyCompanyId.isNullOrEmpty()) {
-            manageFamiliesState.value = manageFamiliesState.value.copy(
+    fun saveThirdParty() {
+        val thirdParty = manageThirdPartiesState.value.selectedThirdParty
+        if (thirdParty.thirdPartyName.isNullOrEmpty()) {
+            manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
                 warning = "Please fill all inputs",
                 isLoading = false
             )
             return
         }
-        manageFamiliesState.value = manageFamiliesState.value.copy(
+        manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
             isLoading = true
         )
         val callback = object : OnResult {
             override fun onSuccess(result: Any) {
                 viewModelScope.launch(Dispatchers.Main) {
-                    manageFamiliesState.value = manageFamiliesState.value.copy(
-                        selectedFamily = result as Family,
+                    manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
+                        selectedThirdParty = result as ThirdParty,
                         isLoading = false
                     )
                 }
@@ -97,57 +98,57 @@ class ManageFamiliesViewModel @Inject constructor(
 
             override fun onFailure(message: String) {
                 viewModelScope.launch(Dispatchers.Main) {
-                    manageFamiliesState.value = manageFamiliesState.value.copy(
+                    manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
                         isLoading = false
                     )
                 }
             }
 
         }
-        manageFamiliesState.value.selectedFamily.let {
+        manageThirdPartiesState.value.selectedThirdParty.let {
             CoroutineScope(Dispatchers.IO).launch {
-                if (it.familyDocumentId.isNullOrEmpty()) {
-                    it.familyId = Utils.generateRandomUuidString()
-                    familyRepository.insert(it, callback)
+                if (it.thirdPartyDocumentId.isNullOrEmpty()) {
+                    it.thirdPartyId = Utils.generateRandomUuidString()
+                    thirdPartyRepository.insert(it, callback)
                 } else {
-                    familyRepository.update(it, callback)
+                    thirdPartyRepository.update(it, callback)
                 }
             }
         }
     }
 
-    fun deleteSelectedFamily() {
-        val family = manageFamiliesState.value.selectedFamily
-        if (family.familyId.isEmpty()) {
-            manageFamiliesState.value = manageFamiliesState.value.copy(
+    fun deleteSelectedThirdParty() {
+        val thirdParty = manageThirdPartiesState.value.selectedThirdParty
+        if (thirdParty.thirdPartyId.isEmpty()) {
+            manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
                 warning = "Please select an user to delete",
                 isLoading = false
             )
             return
         }
-        manageFamiliesState.value = manageFamiliesState.value.copy(
+        manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
             warning = null,
             isLoading = true
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            familyRepository.delete(family, object : OnResult {
+            thirdPartyRepository.delete(thirdParty, object : OnResult {
                 override fun onSuccess(result: Any) {
-                    val families = manageFamiliesState.value.families
+                    val thirdParties = manageThirdPartiesState.value.thirdParties
                     val position =
-                        families.indexOfFirst {
-                            family.familyId.equals(
-                                it.familyId,
+                        thirdParties.indexOfFirst {
+                            thirdParty.thirdPartyId.equals(
+                                it.thirdPartyId,
                                 ignoreCase = true
                             )
                         }
                     if (position >= 0) {
-                        families.removeAt(position)
+                        thirdParties.removeAt(position)
                     }
                     viewModelScope.launch(Dispatchers.Main) {
-                        manageFamiliesState.value = manageFamiliesState.value.copy(
-                            families = families,
-                            selectedFamily = Family(),
+                        manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
+                            thirdParties = thirdParties,
+                            selectedThirdParty = ThirdParty(),
                             isLoading = false
                         )
                     }
@@ -155,7 +156,7 @@ class ManageFamiliesViewModel @Inject constructor(
 
                 override fun onFailure(message: String) {
                     viewModelScope.launch(Dispatchers.Main) {
-                        manageFamiliesState.value = manageFamiliesState.value.copy(
+                        manageThirdPartiesState.value = manageThirdPartiesState.value.copy(
                             isLoading = false
                         )
                     }

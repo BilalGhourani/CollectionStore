@@ -100,7 +100,7 @@ fun ManageFamiliesView(
                             items = manageFamiliesState.families.toMutableList(),
                             modifier = Modifier.padding(10.dp),
                             label =
-                            if (nameState.isNotEmpty()) nameState else "Select User",
+                            if (nameState.isNotEmpty()) nameState else "Select Family",
                         ) {
                             it as Family
                             manageFamiliesState.selectedFamily = it
@@ -120,7 +120,7 @@ fun ManageFamiliesView(
                         SearchableDropdownMenu(
                             items = manageFamiliesState.companies.toMutableList(),
                             modifier = Modifier.padding(10.dp),
-                            label = "Select Tax Currency",
+                            label = "Select Company",
                             selectedId = companyIdState
                         ) { company ->
                             company as Company

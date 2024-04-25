@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.bg.collectionsstore.data.Family.Family
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,9 +17,17 @@ interface ThirdPartyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(thirdParty: ThirdParty)
 
+    // insert list of Third Parties
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(order: List<ThirdParty>)
+
     // Delete a Third Party
     @Delete
     suspend fun delete(thirdParty: ThirdParty)
+
+    // Delete all Third Parties
+    @Query("DELETE FROM thirdparty")
+    suspend fun deleteAll()
 
     // Update a Third Party
     @Update

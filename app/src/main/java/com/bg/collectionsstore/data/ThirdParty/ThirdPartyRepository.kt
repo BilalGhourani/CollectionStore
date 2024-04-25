@@ -1,26 +1,24 @@
 package com.bg.collectionsstore.data.ThirdParty
 
+import com.bg.collectionsstore.interfaces.OnResult
 import kotlinx.coroutines.flow.Flow
 
 interface ThirdPartyRepository {
 
     // suspend is a coroutine keyword,
     // instead of having a callback we can just wait till insert is done
-    suspend fun insert(thirdParty: ThirdParty)
+    suspend fun insert(thirdParty: ThirdParty, callback: OnResult?)
 
     // Delete a ThirdParty
-    suspend fun delete(thirdParty: ThirdParty)
+    suspend fun delete(thirdParty: ThirdParty, callback: OnResult?)
 
     // Update a ThirdParty
-    suspend fun update(thirdParty: ThirdParty)
+    suspend fun update(thirdParty: ThirdParty, callback: OnResult?)
 
     // Get ThirdParty by it's ID
     suspend fun getThirdPartyById(id: String): ThirdParty
 
     // Get all ThirdParties as stream.
-    fun getAllThirdParties(): Flow<List<ThirdParty>>
-
-    // Get searched ThirdParties as stream.
-    fun searchForThirdParties(key: String): Flow<List<ThirdParty>>
+    suspend fun getAllThirdParties(callback: OnResult?)
 
 }

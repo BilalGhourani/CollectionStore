@@ -11,7 +11,7 @@ import java.util.UUID
 object Utils {
 
     val homeSections = mutableListOf(
-        HomeSectionModel("Company", "ManageFamiliesView"),
+        HomeSectionModel("Company", "ManageCompaniesView"),
         HomeSectionModel("User", "ManageUsersView"),
         HomeSectionModel("Third Party", "ManageThirdPartiesView"),
         HomeSectionModel("Family", "ManageFamiliesView"),

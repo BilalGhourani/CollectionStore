@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -113,7 +112,7 @@ fun ManageCompaniesView(
                         })
                 }
             }
-        ) { it ->
+        ) {
             Box(
                 modifier = modifier
                     .fillMaxSize()
@@ -124,15 +123,15 @@ fun ManageCompaniesView(
                 var phoneState by remember { mutableStateOf("") }
                 var addressState by remember { mutableStateOf("") }
                 var taxRegnoState by remember { mutableStateOf("") }
-                var taxState by remember { mutableDoubleStateOf(0.0) }
+                var taxState by remember { mutableStateOf("") }
                 var curCodeTaxState by remember { mutableStateOf("") }
                 var emailState by remember { mutableStateOf("") }
                 var webState by remember { mutableStateOf("") }
                 var logoState by remember { mutableStateOf("") }
                 var ssState by remember { mutableStateOf(false) }
-                var tax1State by remember { mutableDoubleStateOf(0.0) }
+                var tax1State by remember { mutableStateOf("") }
                 var tax1RegnoState by remember { mutableStateOf("") }
-                var tax2State by remember { mutableDoubleStateOf(0.0) }
+                var tax2State by remember { mutableStateOf("") }
                 var tax2RegnoState by remember { mutableStateOf("") }
                 Column(
                     modifier = Modifier
@@ -156,16 +155,16 @@ fun ManageCompaniesView(
                             phoneState = company.companyPhone ?: ""
                             addressState = company.companyAddress ?: ""
                             taxRegnoState = company.companyTaxRegno ?: ""
-                            taxState = company.companyTax ?: 0.0
+                            taxState = company.companyTax ?: ""
                             curCodeTaxState = company.companyCurCodeTax ?: ""
                             emailState = company.companyEmail ?: ""
                             webState = company.companyWeb ?: ""
                             logoState = company.companyLogo ?: ""
                             ssState = company.companySS
                             tax1RegnoState = company.companyTax1Regno ?: ""
-                            tax1State = company.companyTax1 ?: 0.0
+                            tax1State = company.companyTax1 ?: ""
                             tax2RegnoState = company.companyTax2Regno ?: ""
-                            tax2State = company.companyTax2 ?: 0.0
+                            tax2State = company.companyTax2 ?: ""
                         }
 
                         //name
@@ -175,9 +174,9 @@ fun ManageCompaniesView(
                             label = "Name",
                             placeHolder = "Enter Name",
                             onAction = { phoneFocusRequester.requestFocus() }
-                        ) {
-                            nameState = it
-                            manageCompaniesState.selectedCompany.companyName = it
+                        ) { name ->
+                            nameState = name
+                            manageCompaniesState.selectedCompany.companyName = name
                         }
 
                         //phone
@@ -185,11 +184,12 @@ fun ManageCompaniesView(
                             modifier = Modifier.padding(10.dp),
                             defaultValue = nameState,
                             label = "Phone",
+                            focusRequester = phoneFocusRequester,
                             placeHolder = "Enter Phone",
                             onAction = { addressFocusRequester.requestFocus() }
-                        ) {
-                            phoneState = it
-                            manageCompaniesState.selectedCompany.companyPhone = it
+                        ) { phone ->
+                            phoneState = phone
+                            manageCompaniesState.selectedCompany.companyPhone = phone
                         }
 
                         //address
@@ -198,11 +198,12 @@ fun ManageCompaniesView(
                             defaultValue = nameState,
                             label = "Address",
                             maxLines = 3,
+                            focusRequester = addressFocusRequester,
                             placeHolder = "Enter address",
                             onAction = { taxRegNoFocusRequester.requestFocus() }
-                        ) {
-                            addressState = it
-                            manageCompaniesState.selectedCompany.companyAddress = it
+                        ) { address ->
+                            addressState = address
+                            manageCompaniesState.selectedCompany.companyAddress = address
                         }
 
                         //tax reg no
@@ -210,11 +211,12 @@ fun ManageCompaniesView(
                             modifier = Modifier.padding(10.dp),
                             defaultValue = nameState,
                             label = "Tax Reg. No",
+                            focusRequester = taxRegNoFocusRequester,
                             placeHolder = "Enter Tax Reg. No",
                             onAction = { taxFocusRequester.requestFocus() }
-                        ) {
-                            taxRegnoState = it
-                            manageCompaniesState.selectedCompany.companyTaxRegno = it
+                        ) { taxRegno ->
+                            taxRegnoState = taxRegno
+                            manageCompaniesState.selectedCompany.companyTaxRegno = taxRegno
                         }
 
                         //tax
@@ -222,11 +224,11 @@ fun ManageCompaniesView(
                             modifier = Modifier.padding(10.dp),
                             defaultValue = nameState,
                             label = "Tax",
+                            focusRequester = taxFocusRequester,
                             keyboardType = KeyboardType.Decimal,
                             placeHolder = "Enter Tax",
                             onAction = { tax1RegNoFocusRequester.requestFocus() }
-                        ) {
-                            val tax = it.toDouble()
+                        ) { tax ->
                             taxState = tax
                             manageCompaniesState.selectedCompany.companyTax = tax
                         }
@@ -249,10 +251,11 @@ fun ManageCompaniesView(
                             defaultValue = nameState,
                             label = "Tax1 Reg. No",
                             placeHolder = "Enter Tax1 Reg. No",
+                            focusRequester = tax1RegNoFocusRequester,
                             onAction = { tax1FocusRequester.requestFocus() }
-                        ) {
-                            tax1RegnoState = it
-                            manageCompaniesState.selectedCompany.companyTax1Regno = it
+                        ) { tax1Regno ->
+                            tax1RegnoState = tax1Regno
+                            manageCompaniesState.selectedCompany.companyTax1Regno = tax1Regno
                         }
 
                         //tax1
@@ -262,9 +265,9 @@ fun ManageCompaniesView(
                             label = "Tax1",
                             keyboardType = KeyboardType.Decimal,
                             placeHolder = "Enter Tax1",
+                            focusRequester = tax1FocusRequester,
                             onAction = { tax2RegNoFocusRequester.requestFocus() }
-                        ) {
-                            val tax1 = it.toDouble()
+                        ) { tax1 ->
                             tax1State = tax1
                             manageCompaniesState.selectedCompany.companyTax1 = tax1
                         }
@@ -275,10 +278,11 @@ fun ManageCompaniesView(
                             defaultValue = nameState,
                             label = "Tax2 Reg. No",
                             placeHolder = "Enter Tax2 Reg. No",
+                            focusRequester = tax2RegNoFocusRequester,
                             onAction = { tax2FocusRequester.requestFocus() }
-                        ) {
-                            tax2RegnoState = it
-                            manageCompaniesState.selectedCompany.companyTax2Regno = it
+                        ) { tax2Regno ->
+                            tax2RegnoState = tax2Regno
+                            manageCompaniesState.selectedCompany.companyTax2Regno = tax2Regno
                         }
 
                         //tax2
@@ -288,9 +292,9 @@ fun ManageCompaniesView(
                             label = "Tax2",
                             keyboardType = KeyboardType.Decimal,
                             placeHolder = "Enter Tax2",
+                            focusRequester = tax2FocusRequester,
                             onAction = { emailFocusRequester.requestFocus() }
-                        ) {
-                            val tax2 = it.toDouble()
+                        ) { tax2 ->
                             tax2State = tax2
                             manageCompaniesState.selectedCompany.companyTax2 = tax2
                         }
@@ -301,10 +305,11 @@ fun ManageCompaniesView(
                             defaultValue = nameState,
                             label = "Email Address",
                             placeHolder = "Enter Email Address",
+                            focusRequester = emailFocusRequester,
                             onAction = { webFocusRequester.requestFocus() }
-                        ) {
-                            emailState = it
-                            manageCompaniesState.selectedCompany.companyEmail = it
+                        ) { email ->
+                            emailState = email
+                            manageCompaniesState.selectedCompany.companyEmail = email
                         }
 
                         //web
@@ -313,22 +318,24 @@ fun ManageCompaniesView(
                             defaultValue = nameState,
                             label = "Website",
                             placeHolder = "Enter Website",
+                            focusRequester = webFocusRequester,
                             onAction = { logoFocusRequester.requestFocus() }
-                        ) {
-                            webState = it
-                            manageCompaniesState.selectedCompany.companyWeb = it
+                        ) { web ->
+                            webState = web
+                            manageCompaniesState.selectedCompany.companyWeb = web
                         }
 
-                        //web
+                        //logo
                         UITextField(
                             modifier = Modifier.padding(10.dp),
                             defaultValue = nameState,
                             label = "Logo",
                             placeHolder = "Enter Logo",
+                            focusRequester = logoFocusRequester,
                             imeAction = ImeAction.Done
-                        ) {
-                            logoState = it
-                            manageCompaniesState.selectedCompany.companyLogo = it
+                        ) { logo ->
+                            logoState = logo
+                            manageCompaniesState.selectedCompany.companyLogo = logo
                         }
 
                         Row(
