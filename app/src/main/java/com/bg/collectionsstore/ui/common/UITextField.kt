@@ -58,8 +58,12 @@ fun UITextField(
                 imeAction = imeAction
             ),
             keyboardActions = KeyboardActions(
-                onNext = onAction,
-                onDone = onAction,
+                onNext = {
+                    onAction.invoke(this)
+                },
+                onDone = {
+                    onAction.invoke(this)
+                },
             ),
             maxLines = maxLines,
             singleLine = maxLines == 1,

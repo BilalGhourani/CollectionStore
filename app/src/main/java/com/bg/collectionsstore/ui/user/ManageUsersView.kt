@@ -135,13 +135,15 @@ fun ManageUsersView(
                         ) { selectedUser ->
                             selectedUser as User
                             manageUsersState.selectedUser = selectedUser
+                            nameState = selectedUser.userName ?: ""
                             usernameState = selectedUser.userUsername ?: ""
                             passwordState = selectedUser.userPassword ?: ""
+                            companyIdState = selectedUser.userCompanyId ?: ""
                         }
 
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = usernameState,
+                            defaultValue = nameState,
                             label = "Name",
                             placeHolder = "Enter Name",
                             onAction = { usernameFocusRequester.requestFocus() }
@@ -229,7 +231,7 @@ fun ManageUsersView(
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = { viewModel.saveUser() }
+                                onClick = { viewModel.saveUser(manageUsersState.selectedUser) }
                             ) {
                                 Text("Save")
                             }
@@ -239,7 +241,7 @@ fun ManageUsersView(
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = { viewModel.deleteSelectedUser() }
+                                onClick = { viewModel.deleteSelectedUser(manageUsersState.selectedUser) }
                             ) {
                                 Text("Delete")
                             }

@@ -182,7 +182,7 @@ fun ManageCompaniesView(
                         //phone
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = phoneState,
                             label = "Phone",
                             focusRequester = phoneFocusRequester,
                             placeHolder = "Enter Phone",
@@ -195,7 +195,7 @@ fun ManageCompaniesView(
                         //address
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = addressState,
                             label = "Address",
                             maxLines = 3,
                             focusRequester = addressFocusRequester,
@@ -209,7 +209,7 @@ fun ManageCompaniesView(
                         //tax reg no
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = taxRegnoState,
                             label = "Tax Reg. No",
                             focusRequester = taxRegNoFocusRequester,
                             placeHolder = "Enter Tax Reg. No",
@@ -222,7 +222,7 @@ fun ManageCompaniesView(
                         //tax
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = taxState,
                             label = "Tax",
                             focusRequester = taxFocusRequester,
                             keyboardType = KeyboardType.Decimal,
@@ -248,7 +248,7 @@ fun ManageCompaniesView(
                         //tax1 reg no
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = tax1RegnoState,
                             label = "Tax1 Reg. No",
                             placeHolder = "Enter Tax1 Reg. No",
                             focusRequester = tax1RegNoFocusRequester,
@@ -261,7 +261,7 @@ fun ManageCompaniesView(
                         //tax1
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = tax1State,
                             label = "Tax1",
                             keyboardType = KeyboardType.Decimal,
                             placeHolder = "Enter Tax1",
@@ -275,7 +275,7 @@ fun ManageCompaniesView(
                         //tax2 reg no
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = tax2RegnoState,
                             label = "Tax2 Reg. No",
                             placeHolder = "Enter Tax2 Reg. No",
                             focusRequester = tax2RegNoFocusRequester,
@@ -288,7 +288,7 @@ fun ManageCompaniesView(
                         //tax2
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = tax2State,
                             label = "Tax2",
                             keyboardType = KeyboardType.Decimal,
                             placeHolder = "Enter Tax2",
@@ -302,7 +302,7 @@ fun ManageCompaniesView(
                         //email
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = emailState,
                             label = "Email Address",
                             placeHolder = "Enter Email Address",
                             focusRequester = emailFocusRequester,
@@ -315,7 +315,7 @@ fun ManageCompaniesView(
                         //web
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = webState,
                             label = "Website",
                             placeHolder = "Enter Website",
                             focusRequester = webFocusRequester,
@@ -328,7 +328,7 @@ fun ManageCompaniesView(
                         //logo
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = logoState,
                             label = "Logo",
                             placeHolder = "Enter Logo",
                             focusRequester = logoFocusRequester,

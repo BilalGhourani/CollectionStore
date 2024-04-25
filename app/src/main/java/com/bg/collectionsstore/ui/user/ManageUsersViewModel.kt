@@ -73,9 +73,8 @@ class ManageUsersViewModel @Inject constructor(
         })
     }
 
-    fun saveUser() {
-        val user = manageUsersState.value.selectedUser
-        if (user.userUsername.isNullOrEmpty() || user.userPassword.isNullOrEmpty()) {
+    fun saveUser(user: User) {
+        if (user.userName.isNullOrEmpty() || user.userUsername.isNullOrEmpty() || user.userPassword.isNullOrEmpty() || user.userCompanyId.isNullOrEmpty()) {
             manageUsersState.value = manageUsersState.value.copy(
                 warning = "Please fill all inputs",
                 isLoading = false
@@ -104,22 +103,19 @@ class ManageUsersViewModel @Inject constructor(
             }
 
         }
-        manageUsersState.value.selectedUser.let {
-            CoroutineScope(Dispatchers.IO).launch {
-                if (it.userDocumentId.isNullOrEmpty()) {
-                    it.userId = Utils.generateRandomUuidString()
-                    it.userName = Utils.generateNameFromUsername(user.userUsername!!)
-                    userRepository.insert(it, callback)
-                } else {
-                    userRepository.update(it, callback)
-                }
+        CoroutineScope(Dispatchers.IO).launch {
+            if (user.userDocumentId.isNullOrEmpty()) {
+                user.userId = Utils.generateRandomUuidString()
+                user.userName = Utils.generateNameFromUsername(user.userUsername!!)
+                userRepository.insert(user, callback)
+            } else {
+                userRepository.update(user, callback)
             }
         }
     }
 
-    fun deleteSelectedUser() {
-        val user = manageUsersState.value.selectedUser
-        if (user.userUsername.isNullOrEmpty() || user.userPassword.isNullOrEmpty()) {
+    fun deleteSelectedUser(user: User) {
+        if (user.userDocumentId.isNullOrEmpty()) {
             manageUsersState.value = manageUsersState.value.copy(
                 warning = "Please select an user to delete",
                 isLoading = false

@@ -71,7 +71,7 @@ data class Currency(
     @ColumnInfo(name = "cur_rate")
     @set:PropertyName("cur_rate")
     @get:PropertyName("cur_rate")
-    var currencyRate: Double?=null,
+    var currencyRate: String?=null,
     ): DataModel() {
     constructor() : this("")
 

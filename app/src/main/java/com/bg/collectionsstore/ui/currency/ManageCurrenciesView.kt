@@ -18,6 +18,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,6 +49,9 @@ import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
 import com.bg.collectionsstore.ui.common.UITextField
 import com.bg.collectionsstore.ui.theme.Blue
 import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,8 +67,22 @@ fun ManageCurrenciesView(
     val curCode2FocusRequester = remember { FocusRequester() }
     val curName2FocusRequester = remember { FocusRequester() }
     val rateFocusRequester = remember { FocusRequester() }
+    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(manageFamiliesState.warning) {
+        if (!manageFamiliesState.warning.isNullOrEmpty()) {
+            CoroutineScope(Dispatchers.Main).launch {
+                snackbarHostState.showSnackbar(
+                    message = manageFamiliesState.warning!!,
+                    duration = SnackbarDuration.Short,
+                )
+            }
+        }
+    }
     CollectionsStoreTheme {
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
             topBar = {
                 Surface(shadowElevation = 3.dp, color = Color.White) {
                     TopAppBar(
@@ -96,7 +115,7 @@ fun ManageCurrenciesView(
                 var curName1State by remember { mutableStateOf("") }
                 var curCode2State by remember { mutableStateOf("") }
                 var curName2State by remember { mutableStateOf("") }
-                var rateState by remember { mutableDoubleStateOf(0.0) }
+                var rateState by remember { mutableStateOf("") }
                 Box(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -120,7 +139,7 @@ fun ManageCurrenciesView(
                             curName1State = currency.currencyName1 ?: ""
                             curCode2State = currency.currencyCode2 ?: ""
                             curName2State = currency.currencyName2 ?: ""
-                            rateState = currency.currencyRate ?: 0.0
+                            rateState = currency.currencyRate ?: ""
                         }
 
                         Row(
@@ -136,7 +155,7 @@ fun ManageCurrenciesView(
                                     .weight(.3f),
                                 defaultValue = curCode1State,
                                 label = "Cur1 Code",
-                                placeHolder = "Cur1 Code",
+                                placeHolder = "Code",
                                 onAction = { curName1FocusRequester.requestFocus() }
                             ) { curCode1 ->
                                 curCode1State = curCode1
@@ -147,9 +166,9 @@ fun ManageCurrenciesView(
                                 modifier = Modifier
                                     .padding(10.dp)
                                     .weight(.6f),
-                                defaultValue = curCode1State,
+                                defaultValue = curName1State,
                                 label = "Cur1 Name",
-                                placeHolder = "Cur1 Name",
+                                placeHolder = "Name",
                                 focusRequester = curName1FocusRequester,
                                 onAction = { curCode2FocusRequester.requestFocus() }
                             ) { curName1 ->
@@ -171,7 +190,7 @@ fun ManageCurrenciesView(
                                     .weight(.3f),
                                 defaultValue = curCode2State,
                                 label = "Cur2 Code",
-                                placeHolder = "Cur2 Code",
+                                placeHolder = "Code",
                                 focusRequester = curCode2FocusRequester,
                                 onAction = { curName2FocusRequester.requestFocus() }
                             ) { curCode2 ->
@@ -183,9 +202,9 @@ fun ManageCurrenciesView(
                                 modifier = Modifier
                                     .padding(10.dp)
                                     .weight(.6f),
-                                defaultValue = curCode2State,
+                                defaultValue = curName2State,
                                 label = "Cur2 Name",
-                                placeHolder = "Cur2 Name",
+                                placeHolder = "Name",
                                 focusRequester = curName2FocusRequester,
                                 onAction = { rateFocusRequester.requestFocus() }
                             ) { curName2 ->
@@ -196,16 +215,15 @@ fun ManageCurrenciesView(
 
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = rateState.toString(),
+                            defaultValue = rateState,
                             keyboardType = KeyboardType.Decimal,
                             label = "Rate",
                             placeHolder = "Enter Rate",
                             focusRequester = rateFocusRequester,
                             imeAction = ImeAction.Done
                         ) { rateStr ->
-                            val rate = rateStr.toDouble()
-                            rateState = rate
-                            manageFamiliesState.selectedCurrency.currencyRate = rate
+                            rateState = rateStr
+                            manageFamiliesState.selectedCurrency.currencyRate = rateState
                         }
 
 
@@ -221,7 +239,7 @@ fun ManageCurrenciesView(
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = { viewModel.saveCurrency() }
+                                onClick = { viewModel.saveCurrency(manageFamiliesState.selectedCurrency) }
                             ) {
                                 Text("Save")
                             }
@@ -231,7 +249,7 @@ fun ManageCurrenciesView(
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = { viewModel.deleteSelectedCurrency() }
+                                onClick = { viewModel.deleteSelectedCurrency(manageFamiliesState.selectedCurrency) }
                             ) {
                                 Text("Delete")
                             }

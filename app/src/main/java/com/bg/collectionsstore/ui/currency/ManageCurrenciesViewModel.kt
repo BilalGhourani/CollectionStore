@@ -48,9 +48,8 @@ class ManageCurrenciesViewModel @Inject constructor(
         })
     }
 
-    fun saveCurrency() {
-        val currency = manageCurrenciesState.value.selectedCurrency
-        if (currency.currencyCode1.isNullOrEmpty() || currency.currencyName1.isNullOrEmpty() || currency.currencyCode2.isNullOrEmpty() || currency.currencyName2.isNullOrEmpty() || currency.currencyRate?.isNaN() == true) {
+    fun saveCurrency(currency: Currency) {
+        if (currency.currencyCode1.isNullOrEmpty() || currency.currencyName1.isNullOrEmpty() || currency.currencyCode2.isNullOrEmpty() || currency.currencyName2.isNullOrEmpty() || currency.currencyRate.isNullOrEmpty()) {
             manageCurrenciesState.value = manageCurrenciesState.value.copy(
                 warning = "Please fill all inputs",
                 isLoading = false
@@ -79,21 +78,18 @@ class ManageCurrenciesViewModel @Inject constructor(
             }
 
         }
-        manageCurrenciesState.value.selectedCurrency.let {
-            CoroutineScope(Dispatchers.IO).launch {
-                if (it.currencyDocumentId.isNullOrEmpty()) {
-                    it.currencyId = Utils.generateRandomUuidString()
-                    currencyRepository.insert(it, callback)
-                } else {
-                    currencyRepository.update(it, callback)
-                }
+        CoroutineScope(Dispatchers.IO).launch {
+            if (currency.currencyDocumentId.isNullOrEmpty()) {
+                currency.currencyId = Utils.generateRandomUuidString()
+                currencyRepository.insert(currency, callback)
+            } else {
+                currencyRepository.update(currency, callback)
             }
         }
     }
 
-    fun deleteSelectedCurrency() {
-        val currency = manageCurrenciesState.value.selectedCurrency
-        if (currency.currencyCode1.isNullOrEmpty() || currency.currencyName1.isNullOrEmpty() || currency.currencyCode2.isNullOrEmpty() || currency.currencyName2.isNullOrEmpty() || currency.currencyRate?.isNaN() == true) {
+    fun deleteSelectedCurrency(currency: Currency) {
+        if (currency.currencyCode1.isNullOrEmpty() || currency.currencyName1.isNullOrEmpty() || currency.currencyCode2.isNullOrEmpty() || currency.currencyName2.isNullOrEmpty() || currency.currencyRate.isNullOrEmpty()) {
             manageCurrenciesState.value = manageCurrenciesState.value.copy(
                 warning = "Please select an Currency to delete",
                 isLoading = false
