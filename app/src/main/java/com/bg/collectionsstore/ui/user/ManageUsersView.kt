@@ -32,9 +32,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -55,7 +57,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ManageUsersView(
     navController: NavController? = null,
@@ -65,6 +67,7 @@ fun ManageUsersView(
     val manageUsersState: ManageUsersState by viewModel.manageUsersState.collectAsState(
         ManageUsersState()
     )
+    val keyboardController = LocalSoftwareKeyboardController.current
     val usernameFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -173,7 +176,8 @@ fun ManageUsersView(
                             placeHolder = "Enter Password",
                             focusRequester = passwordFocusRequester,
                             keyboardType = KeyboardType.Password,
-                            imeAction = ImeAction.Done
+                            imeAction = ImeAction.Done,
+                            onAction = { keyboardController?.hide() }
                         ) {
                             passwordState = it
                             manageUsersState.selectedUser.userPassword = it

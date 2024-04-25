@@ -32,9 +32,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -53,7 +55,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ManageCurrenciesView(
     navController: NavController? = null,
@@ -63,6 +65,7 @@ fun ManageCurrenciesView(
     val manageFamiliesState: ManageCurrenciesState by viewModel.manageCurrenciesState.collectAsState(
         ManageCurrenciesState()
     )
+    val keyboardController = LocalSoftwareKeyboardController.current
     val curName1FocusRequester = remember { FocusRequester() }
     val curCode2FocusRequester = remember { FocusRequester() }
     val curName2FocusRequester = remember { FocusRequester() }
@@ -220,7 +223,8 @@ fun ManageCurrenciesView(
                             label = "Rate",
                             placeHolder = "Enter Rate",
                             focusRequester = rateFocusRequester,
-                            imeAction = ImeAction.Done
+                            imeAction = ImeAction.Done,
+                            onAction = { keyboardController?.hide() }
                         ) { rateStr ->
                             rateState = rateStr
                             manageFamiliesState.selectedCurrency.currencyRate = rateState

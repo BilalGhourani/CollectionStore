@@ -105,6 +105,7 @@ fun ManageFamiliesView(
                             it as Family
                             manageFamiliesState.selectedFamily = it
                             nameState = it.familyName ?: ""
+                            companyIdState = it.familyCompanyId ?: ""
                         }
 
                         UITextField(

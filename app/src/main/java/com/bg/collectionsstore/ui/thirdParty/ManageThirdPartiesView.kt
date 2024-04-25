@@ -31,9 +31,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,7 +53,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ManageThirdPartiesView(
     navController: NavController? = null,
@@ -61,6 +63,7 @@ fun ManageThirdPartiesView(
     val manageThirdPartiesState: ManageThirdPartiesState by viewModel.manageThirdPartiesState.collectAsState(
         ManageThirdPartiesState()
     )
+    val keyboardController = LocalSoftwareKeyboardController.current
     val phone1FocusRequester = remember { FocusRequester() }
     val phone2FocusRequester = remember { FocusRequester() }
     val addressFocusRequester = remember { FocusRequester() }
@@ -124,7 +127,7 @@ fun ManageThirdPartiesView(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SearchableDropdownMenu(
-                            items = manageThirdPartiesState.companies.toMutableList(),
+                            items = manageThirdPartiesState.thirdParties.toMutableList(),
                             modifier = Modifier.padding(10.dp),
                             label = nameState.ifEmpty { "Select Third Party" },
                         ) { thirdParty ->
@@ -144,7 +147,9 @@ fun ManageThirdPartiesView(
                             defaultValue = nameState,
                             label = "Name",
                             placeHolder = "Enter Name",
-                            onAction = { phone1FocusRequester.requestFocus() }
+                            onAction = {
+                                keyboardController?.hide()
+                            }
                         ) { name ->
                             nameState = name
                             manageThirdPartiesState.selectedThirdParty.thirdPartyName = name
@@ -161,12 +166,13 @@ fun ManageThirdPartiesView(
                             companyIdState = company.companyId
                             manageThirdPartiesState.selectedThirdParty.thirdPartyCompId =
                                 companyIdState
+                            phone1FocusRequester.requestFocus()
                         }
 
                         //phone1
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = phone1State,
                             label = "Phone1",
                             placeHolder = "Enter Phone1",
                             focusRequester = phone1FocusRequester,
@@ -179,7 +185,7 @@ fun ManageThirdPartiesView(
                         //phone2
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = phone2State,
                             label = "Phone2",
                             placeHolder = "Enter Phone2",
                             focusRequester = phone2FocusRequester,
@@ -192,12 +198,13 @@ fun ManageThirdPartiesView(
                         //address
                         UITextField(
                             modifier = Modifier.padding(10.dp),
-                            defaultValue = nameState,
+                            defaultValue = addressState,
                             label = "Address",
                             maxLines = 3,
                             placeHolder = "Enter address",
                             focusRequester = addressFocusRequester,
-                            imeAction = ImeAction.Done
+                            imeAction = ImeAction.Done,
+                            onAction = { keyboardController?.hide() }
                         ) { address ->
                             addressState = address
                             manageThirdPartiesState.selectedThirdParty.thirdPartyAddress = address

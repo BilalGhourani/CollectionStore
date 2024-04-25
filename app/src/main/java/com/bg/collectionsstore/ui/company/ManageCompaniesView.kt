@@ -32,9 +32,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -54,7 +56,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ManageCompaniesView(
     navController: NavController? = null,
@@ -64,6 +66,7 @@ fun ManageCompaniesView(
     val manageCompaniesState: ManageCompaniesState by viewModel.manageCompaniesState.collectAsState(
         ManageCompaniesState()
     )
+    val keyboardController = LocalSoftwareKeyboardController.current
     val phoneFocusRequester = remember { FocusRequester() }
     val addressFocusRequester = remember { FocusRequester() }
     val taxRegNoFocusRequester = remember { FocusRequester() }
@@ -348,7 +351,8 @@ fun ManageCompaniesView(
                             label = "Logo",
                             placeHolder = "Enter Logo",
                             focusRequester = logoFocusRequester,
-                            imeAction = ImeAction.Done
+                            imeAction = ImeAction.Done,
+                            onAction = { keyboardController?.hide() }
                         ) { logo ->
                             logoState = logo
                             manageCompaniesState.selectedCompany.companyLogo = logo
