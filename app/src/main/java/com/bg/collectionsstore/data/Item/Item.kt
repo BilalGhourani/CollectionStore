@@ -62,7 +62,7 @@ data class Item(
     @ColumnInfo(name = "it_unitprice")
     @set:PropertyName("it_unitprice")
     @get:PropertyName("it_unitprice")
-    var itemUnitPrice: Double? = null,
+    var itemUnitPrice: String? = null,
 
     /**
      * Item tax
@@ -70,7 +70,7 @@ data class Item(
     @ColumnInfo(name = "it_tax")
     @set:PropertyName("it_tax")
     @get:PropertyName("it_tax")
-    var itemTax: Double? = null,
+    var itemTax: String? = null,
 
     /**
      * Item tax 1
@@ -78,7 +78,7 @@ data class Item(
     @ColumnInfo(name = "it_tax1")
     @set:PropertyName("it_tax1")
     @get:PropertyName("it_tax1")
-    var itemTax1: Double? = null,
+    var itemTax1: String? = null,
 
     /**
      * Item tax 2
@@ -86,7 +86,7 @@ data class Item(
     @ColumnInfo(name = "it_tax2")
     @set:PropertyName("it_tax2")
     @get:PropertyName("it_tax2")
-    var itemTax2: Double? = null,
+    var itemTax2: String? = null,
 
     /**
      * related Item pos printer id
@@ -102,7 +102,7 @@ data class Item(
     @ColumnInfo(name = "it_openqty")
     @set:PropertyName("it_openqty")
     @get:PropertyName("it_openqty")
-    var itemOpenQty: Double? = null,
+    var itemOpenQty: String? = null,
 
     /**
      * Item open cost
@@ -110,7 +110,7 @@ data class Item(
     @ColumnInfo(name = "it_opencost")
     @set:PropertyName("it_opencost")
     @get:PropertyName("it_opencost")
-    var itemOpenCost: Double? = null,
+    var itemOpenCost: String? = null,
 
     /**
      * related Item POS id
@@ -126,7 +126,7 @@ data class Item(
     @ColumnInfo(name = "it_btncolor")
     @set:PropertyName("it_btncolor")
     @get:PropertyName("it_btncolor")
-    var itemBtnColor: Int? = null,
+    var itemBtnColor: String? = null,
 
     /**
      * Item button text color
@@ -134,7 +134,7 @@ data class Item(
     @ColumnInfo(name = "it_btntextcolor")
     @set:PropertyName("it_btntextcolor")
     @get:PropertyName("it_btntextcolor")
-    var itemBtnTextColor: Int? = null,
+    var itemBtnTextColor: String? = null,
 
     /**
      * Item userstamp
@@ -154,6 +154,11 @@ data class Item(
 
     ) : DataModel() {
     constructor() : this("")
+
+    @Exclude
+    override fun getId(): String {
+        return itemId
+    }
 
     @Exclude
     override fun getName(): String {

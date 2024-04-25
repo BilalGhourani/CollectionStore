@@ -42,13 +42,13 @@ object Utils {
     )
 
     val listOfItems = mutableListOf(
-        Item(itemId = "1", itemName = "Chicken", itemUnitPrice = 100.0),
-        Item(itemId = "2", itemName = "Salad", itemUnitPrice = 100.0),
-        Item(itemId = "3", itemName = "Veg", itemUnitPrice = 100.0),
-        Item(itemId = "4", itemName = "Other", itemUnitPrice = 100.0),
-        Item(itemId = "5", itemName = "Other1", itemUnitPrice = 100.0),
-        Item(itemId = "6", itemName = "Other2", itemUnitPrice = 100.0),
-        Item(itemId = "7", itemName = "Other3", itemUnitPrice = 100.0),
+        Item(itemId = "1", itemName = "Chicken", itemUnitPrice = "100.0"),
+        Item(itemId = "2", itemName = "Salad", itemUnitPrice = "100.0"),
+        Item(itemId = "3", itemName = "Veg", itemUnitPrice = "100.0"),
+        Item(itemId = "4", itemName = "Other", itemUnitPrice = "100.0"),
+        Item(itemId = "5", itemName = "Other1", itemUnitPrice = "100.0"),
+        Item(itemId = "6", itemName = "Other2", itemUnitPrice = "100.0"),
+        Item(itemId = "7", itemName = "Other3", itemUnitPrice = "100.0"),
     )
 
     fun calculateColumns(cellWidth: Dp, screenWidth: Dp): Int {

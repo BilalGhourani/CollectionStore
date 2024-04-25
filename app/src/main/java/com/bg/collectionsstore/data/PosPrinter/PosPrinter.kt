@@ -22,7 +22,7 @@ data class PosPrinter(
 
     @Ignore
     @get:Exclude
-    var posPrinteDocumentId: String? = null,
+    var posPrinterDocumentId: String? = null,
 
     /**
      * related  POS Printer type company id
@@ -61,6 +61,10 @@ data class PosPrinter(
     ) : DataModel() {
     constructor() : this("")
 
+    @Exclude
+    override fun getId(): String {
+        return posPrinterId
+    }
     @Exclude
     override fun getName(): String {
         return posPrinterName ?: ""

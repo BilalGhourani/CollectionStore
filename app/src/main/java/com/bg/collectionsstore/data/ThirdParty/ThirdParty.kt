@@ -93,6 +93,10 @@ data class ThirdParty(
     constructor() : this("")
 
     @Exclude
+    override fun getId(): String {
+        return thirdPartyId
+    }
+    @Exclude
     override fun getName(): String {
         return thirdPartyName ?: ""
     }

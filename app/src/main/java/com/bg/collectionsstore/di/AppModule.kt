@@ -11,6 +11,8 @@ import com.bg.collectionsstore.data.Family.FamilyRepository
 import com.bg.collectionsstore.data.Family.FamilyRepositoryImpl
 import com.bg.collectionsstore.data.Item.ItemRepository
 import com.bg.collectionsstore.data.Item.ItemRepositoryImpl
+import com.bg.collectionsstore.data.PosPrinter.PosPrinterRepository
+import com.bg.collectionsstore.data.PosPrinter.PosPrinterRepositoryImpl
 import com.bg.collectionsstore.data.ThirdParty.ThirdPartyRepository
 import com.bg.collectionsstore.data.ThirdParty.ThirdPartyRepositoryImpl
 import com.bg.collectionsstore.data.User.UserRepository
@@ -69,6 +71,12 @@ object AppModule {
     @Singleton
     fun provideThirdPartyRepository(db: AppDatabase): ThirdPartyRepository {
         return ThirdPartyRepositoryImpl(db.thirdPartyDao)
+    }
+
+    @Provides
+    @Singleton
+    fun providePosPrinterRepository(db: AppDatabase): PosPrinterRepository {
+        return PosPrinterRepositoryImpl(db.posPrinterDao)
     }
 
 

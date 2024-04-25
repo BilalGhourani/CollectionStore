@@ -60,6 +60,10 @@ data class PosReceipt(
     constructor() : this("")
 
     @Exclude
+    override fun getId(): String {
+        return posReceiptId
+    }
+    @Exclude
     override fun getName(): String {
         return ""
     }

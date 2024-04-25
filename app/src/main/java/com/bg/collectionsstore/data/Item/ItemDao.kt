@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.bg.collectionsstore.data.Company.Company
 import com.bg.collectionsstore.data.Family.Family
 import kotlinx.coroutines.flow.Flow
 
@@ -17,9 +18,17 @@ interface ItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)
 
+    // insert list of Items
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(order: List<Item>)
+
     // Delete an Item
     @Delete
     suspend fun delete(item: Item)
+
+    // Delete all Items
+    @Query("DELETE FROM st_item")
+    suspend fun deleteAll()
 
     // Update an Item
     @Update

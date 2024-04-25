@@ -73,8 +73,7 @@ class ManageCompaniesViewModel @Inject constructor(
         })
     }
 
-    fun saveCompany() {
-        val company = manageCompaniesState.value.selectedCompany
+    fun saveCompany(company: Company) {
         if (company.companyName.isNullOrEmpty() || company.companyAddress.isNullOrEmpty()) {
             manageCompaniesState.value = manageCompaniesState.value.copy(
                 warning = "Please fill all inputs",
@@ -104,20 +103,17 @@ class ManageCompaniesViewModel @Inject constructor(
             }
 
         }
-        manageCompaniesState.value.selectedCompany.let {
-            CoroutineScope(Dispatchers.IO).launch {
-                if (it.companyDocumentId.isNullOrEmpty()) {
-                    it.companyId = Utils.generateRandomUuidString()
-                    companyRepository.insert(it, callback)
-                } else {
-                    companyRepository.update(it, callback)
-                }
+        CoroutineScope(Dispatchers.IO).launch {
+            if (company.companyDocumentId.isNullOrEmpty()) {
+                company.companyId = Utils.generateRandomUuidString()
+                companyRepository.insert(company, callback)
+            } else {
+                companyRepository.update(company, callback)
             }
         }
     }
 
-    fun deleteSelectedCompany() {
-        val company = manageCompaniesState.value.selectedCompany
+    fun deleteSelectedCompany(company: Company) {
         if (company.companyName.isNullOrEmpty() || company.companyAddress.isNullOrEmpty()) {
             manageCompaniesState.value = manageCompaniesState.value.copy(
                 warning = "Please select an company to delete",
@@ -135,7 +131,12 @@ class ManageCompaniesViewModel @Inject constructor(
                 override fun onSuccess(result: Any) {
                     val companies = manageCompaniesState.value.companies
                     val position =
-                        companies.indexOfFirst { company.companyId.equals(it.companyId, ignoreCase = true) }
+                        companies.indexOfFirst {
+                            company.companyId.equals(
+                                it.companyId,
+                                ignoreCase = true
+                            )
+                        }
                     if (position >= 0) {
                         companies.removeAt(position)
                     }

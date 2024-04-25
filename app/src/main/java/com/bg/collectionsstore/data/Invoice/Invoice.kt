@@ -148,6 +148,11 @@ data class Invoice(
     constructor() : this("")
 
     @Exclude
+    override fun getId(): String {
+        return invoiceId
+    }
+
+    @Exclude
     override fun getName(): String {
         return ""
     }

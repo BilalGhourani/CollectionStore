@@ -370,7 +370,7 @@ fun ManageCompaniesView(
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = { viewModel.saveCompany() }
+                                onClick = { viewModel.saveCompany(manageCompaniesState.selectedCompany) }
                             ) {
                                 Text("Save")
                             }
@@ -380,7 +380,7 @@ fun ManageCompaniesView(
                                     .weight(.33f)
                                     .padding(3.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                                onClick = { viewModel.deleteSelectedCompany() }
+                                onClick = { viewModel.deleteSelectedCompany(manageCompaniesState.selectedCompany) }
                             ) {
                                 Text("Delete")
                             }

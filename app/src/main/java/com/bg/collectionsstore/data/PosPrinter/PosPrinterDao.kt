@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.bg.collectionsstore.data.Company.Company
 import com.bg.collectionsstore.data.Item.Item
 import kotlinx.coroutines.flow.Flow
 
@@ -17,9 +18,17 @@ interface PosPrinterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(posPrinter: PosPrinter)
 
+    // insert list of  POS Printers
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(order: List<PosPrinter>)
+
     // Delete a POS Printer
     @Delete
     suspend fun delete(posPrinter: PosPrinter)
+
+    // Delete all POS Printers
+    @Query("DELETE FROM pos_printer")
+    suspend fun deleteAll()
 
     // Update a POS Printer
     @Update
@@ -32,9 +41,5 @@ interface PosPrinterDao {
     // Get all POS Printers as stream.
     @Query("SELECT * FROM `pos_printer`")
     fun getAllPosPrinters(): Flow<List<PosPrinter>>
-
-    // Get searched POS Printers as stream.
-    @Query("SELECT * FROM `pos_printer` WHERE pp_name LIKE '%' || :key || '%'")
-    fun searchForPosPrinters(key: String): Flow<List<PosPrinter>>
 
 }
