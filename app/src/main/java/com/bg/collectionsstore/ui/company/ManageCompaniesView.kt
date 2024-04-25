@@ -72,6 +72,7 @@ fun ManageCompaniesView(
     val webFocusRequester = remember { FocusRequester() }
     val logoFocusRequester = remember { FocusRequester() }
     val tax1FocusRequester = remember { FocusRequester() }
+    val upWithTaxFocusRequester = remember { FocusRequester() }
     val tax1RegNoFocusRequester = remember { FocusRequester() }
     val tax2FocusRequester = remember { FocusRequester() }
     val tax2RegNoFocusRequester = remember { FocusRequester() }
@@ -125,6 +126,7 @@ fun ManageCompaniesView(
                 var taxRegnoState by remember { mutableStateOf("") }
                 var taxState by remember { mutableStateOf("") }
                 var curCodeTaxState by remember { mutableStateOf("") }
+                var curUpWithTaxState by remember { mutableStateOf("") }
                 var emailState by remember { mutableStateOf("") }
                 var webState by remember { mutableStateOf("") }
                 var logoState by remember { mutableStateOf("") }
@@ -157,6 +159,7 @@ fun ManageCompaniesView(
                             taxRegnoState = company.companyTaxRegno ?: ""
                             taxState = company.companyTax ?: ""
                             curCodeTaxState = company.companyCurCodeTax ?: ""
+                            curUpWithTaxState = company.companyUpWithTax ?: ""
                             emailState = company.companyEmail ?: ""
                             webState = company.companyWeb ?: ""
                             logoState = company.companyLogo ?: ""
@@ -227,7 +230,7 @@ fun ManageCompaniesView(
                             focusRequester = taxFocusRequester,
                             keyboardType = KeyboardType.Decimal,
                             placeHolder = "Enter Tax",
-                            onAction = { tax1RegNoFocusRequester.requestFocus() }
+                            onAction = { upWithTaxFocusRequester.requestFocus() }
                         ) { tax ->
                             taxState = tax
                             manageCompaniesState.selectedCompany.companyTax = tax
@@ -243,6 +246,19 @@ fun ManageCompaniesView(
                             curCodeTaxState = currency.currencyId
                             manageCompaniesState.selectedCompany.companyCurCodeTax =
                                 currency.currencyId
+                        }
+
+                        //tax1 reg no
+                        UITextField(
+                            modifier = Modifier.padding(10.dp),
+                            defaultValue = curUpWithTaxState,
+                            label = "Up With Tax",
+                            placeHolder = "Enter Up With Tax",
+                            focusRequester = upWithTaxFocusRequester,
+                            onAction = { tax1RegNoFocusRequester.requestFocus() }
+                        ) { upWithTax ->
+                            curUpWithTaxState = upWithTax
+                            manageCompaniesState.selectedCompany.companyUpWithTax = upWithTax
                         }
 
                         //tax1 reg no

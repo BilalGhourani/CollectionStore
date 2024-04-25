@@ -63,7 +63,7 @@ class CompanyRepositoryImpl(
         if (!localCompanies.isNullOrEmpty()) {
             callback?.onSuccess(localCompanies)
         }
-        FirebaseFirestore.getInstance().collection("set_users").get()
+        FirebaseFirestore.getInstance().collection("company").get()
             .addOnSuccessListener { result ->
                 CoroutineScope(Dispatchers.IO).launch {
                     val companies = mutableListOf<Company>()

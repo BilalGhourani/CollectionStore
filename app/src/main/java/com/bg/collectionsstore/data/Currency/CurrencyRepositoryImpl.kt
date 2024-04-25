@@ -65,14 +65,14 @@ class CurrencyRepositoryImpl(
         if (!localCurrencies.isNullOrEmpty()) {
             callback?.onSuccess(localCurrencies)
         }
-        FirebaseFirestore.getInstance().collection("set_users").get()
+        FirebaseFirestore.getInstance().collection("currency").get()
             .addOnSuccessListener { result ->
                 CoroutineScope(Dispatchers.IO).launch {
                     val currencies = mutableListOf<Currency>()
                     currencyDao.deleteAll()
                     for (document in result) {
                         val obj = document.toObject(Currency::class.java)
-                        if (!obj.currencyId.isNullOrEmpty()) {
+                        if (obj.currencyId.isNotEmpty()) {
                             obj.currencyDocumentId = document.id
                             currencies.add(obj)
                         }

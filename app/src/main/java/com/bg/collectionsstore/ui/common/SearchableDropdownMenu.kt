@@ -61,7 +61,7 @@ fun SearchableDropdownMenu(
     var searchText by remember { mutableStateOf(label) }
     var selectedItemState by remember { mutableStateOf(label) }
     LaunchedEffect(selectedId) {
-        if (selectedId.isNullOrEmpty()) {
+        if (!selectedId.isNullOrEmpty()) {
             items.forEach {
                 if (it.getId().equals(selectedId, ignoreCase = true)) {
                     selectedItemState = it.getName()
@@ -93,7 +93,7 @@ fun SearchableDropdownMenu(
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                 }
             )
-            val filteredItems =
+            val filteredItems = if (searchText.isEmpty()) items else
                 items.filter { it.getName().contains(searchText, ignoreCase = true) }
             if (filteredItems.isNotEmpty()) {
                 DropdownMenu(

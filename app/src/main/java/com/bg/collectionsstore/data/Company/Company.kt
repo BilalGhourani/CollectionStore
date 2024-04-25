@@ -174,6 +174,7 @@ data class Company(
             "cmp_taxregno" to companyTaxRegno,
             "cmp_tax" to companyTax,
             "cmp_cur_codetax" to companyCurCodeTax,
+            "cmp_upwithtax" to companyUpWithTax,
             "cmp_email" to companyEmail,
             "cmp_web" to companyWeb,
             "cmp_logo" to companyLogo,

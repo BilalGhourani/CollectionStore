@@ -139,6 +139,8 @@ fun ManageUsersView(
                             usernameState = selectedUser.userUsername ?: ""
                             passwordState = selectedUser.userPassword ?: ""
                             companyIdState = selectedUser.userCompanyId ?: ""
+                            posModeState = selectedUser.userPosMode ?: true
+                            tableModeState = selectedUser.userTableMode ?: false
                         }
 
                         UITextField(
