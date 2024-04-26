@@ -1,11 +1,20 @@
 package com.bg.collectionsstore.ui.pos
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -14,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -40,7 +50,7 @@ fun ManagePosView(
                         },
                         title = {
                             Text(
-                                text = "Manage POS",
+                                text = "POS",
                                 color = Color.Black,
                                 fontSize = 16.sp,
                                 textAlign = TextAlign.Center
@@ -49,13 +59,51 @@ fun ManagePosView(
                 }
             }
         ) {
-            Text(
-                text = "Coming Soon",
-                color = Color.Black,
+            Surface(
                 modifier = Modifier
-                    .padding(it),
-                textAlign = TextAlign.Center
-            )
+                    .wrapContentWidth()
+                    .fillMaxHeight()
+                    .padding(it)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .padding(horizontal = 10.dp, vertical = 16.dp),
+                ) {
+                    InvoiceHeaderDetails(
+                        navController = navController,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(.1f)
+                    )
+
+                    // Border stroke configuration
+                    val borderStroke = BorderStroke(1.dp, Color.Black)
+
+                    InvoiceBodyDetails(
+                        navController = navController,
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .weight(.7f)
+                            .border(borderStroke, shape = MaterialTheme.shapes.small)
+                    )
+
+                    InvoiceFooterDetails(
+                        navController = navController,
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .weight(.2f)
+                    )
+                }
+            }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ManagePosViewPreview() {
+    CollectionsStoreTheme {
+        ManagePosView()
     }
 }
