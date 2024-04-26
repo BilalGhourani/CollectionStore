@@ -14,6 +14,8 @@ import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Item.Item
 import com.bg.collectionsstore.data.User.User
 import com.bg.collectionsstore.model.HomeSectionModel
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.util.UUID
 
 object Utils {
@@ -102,6 +104,27 @@ object Utils {
         val heightMicrometers = heightInches * 25400
 
         return MediaSize("POS Receipt", "POS Receipt", widthMicrometers, heightMicrometers)
+    }
+
+    fun readHtmlFromAssets(fileName: String,context: Context): String {
+        return try {
+            val inputStream = context.assets.open(fileName)
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            val stringBuilder = StringBuilder()
+            var line: String?
+            while (reader.readLine().also { line = it } != null) {
+                stringBuilder.append(line)
+            }
+            stringBuilder.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    fun modifyHtmlContent(htmlContent: String): String {
+        // Modify HTML content here as needed
+        return htmlContent.replace("original_value", "new_value")
     }
 
 }

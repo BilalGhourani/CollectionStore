@@ -37,13 +37,18 @@ import com.bg.collectionsstore.utils.Utils
 fun UIWebView(
     navController: NavController? = null,
     modifier: Modifier = Modifier,
-    url: String = "file:///android_asset/receipt.html"
+    url: String = "file:///android_asset/receipt.html",
+    htmlContent: String = ""
 ) {
     val context = LocalContext.current
     val webView = remember {
         WebView(context).apply {
             webViewClient = WebViewClient()
-            loadUrl(url)
+            if (htmlContent.isNullOrEmpty()) {
+                loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
+            } else {
+                loadUrl(url)
+            }
         }
     }
 
