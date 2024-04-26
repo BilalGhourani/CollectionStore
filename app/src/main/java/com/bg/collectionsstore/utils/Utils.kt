@@ -1,6 +1,14 @@
 package com.bg.collectionsstore.utils
 
+import android.content.Context
+import android.print.PrintAttributes
+import android.print.PrintAttributes.MediaSize
+import android.print.PrintManager
+import android.webkit.WebView
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
+import com.bg.collectionsstore.App
 import com.bg.collectionsstore.data.DataModel
 import com.bg.collectionsstore.data.Family.Family
 import com.bg.collectionsstore.data.Item.Item
@@ -63,4 +71,37 @@ object Utils {
     fun generateNameFromUsername(username: String): String {
         return username.replace("_", " ")
     }
+
+
+    fun printWebPage(webView: WebView?, context: Context) {
+        if (webView != null) {
+            val printManager = context.getSystemService(Context.PRINT_SERVICE) as PrintManager
+            val jobName = "webpage_" + System.currentTimeMillis()
+            val printAdapter = webView.createPrintDocumentAdapter(jobName)
+
+            // Define Print Attributes (optional)
+            val printAttributes = PrintAttributes.Builder()
+                .setMediaSize(getMediaSize())
+                .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+                .build()
+
+            printManager.print(jobName, printAdapter, printAttributes)
+        }
+    }
+
+    fun getMediaSize(): MediaSize {
+        if (true) {
+            return PrintAttributes.MediaSize.ISO_A4
+        }
+        // Define the width and height in inches
+        val widthInches = 3 // Typical width for POS receipt paper
+        val heightInches = 11 // You can adjust this based on your needs
+
+        // Convert inches to micrometers (1 inch = 25400 micrometers)
+        val widthMicrometers = widthInches * 25400
+        val heightMicrometers = heightInches * 25400
+
+        return MediaSize("POS Receipt", "POS Receipt", widthMicrometers, heightMicrometers)
+    }
+
 }

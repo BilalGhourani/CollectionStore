@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bg.collectionsstore.ui.family.ManageFamiliesView
 import com.bg.collectionsstore.ui.Item.ManageItemsView
+import com.bg.collectionsstore.ui.common.UIWebView
 import com.bg.collectionsstore.ui.company.ManageCompaniesView
 import com.bg.collectionsstore.ui.currency.ManageCurrenciesView
 import com.bg.collectionsstore.ui.user.ManageUsersView
@@ -46,5 +47,6 @@ fun AuthNavGraph(
         composable(route = "ManageItemsView") { ManageItemsView(navController) }
         composable(route = "ManagePosView") { ManagePosView(navController) }
         composable(route = "ManageTablesView") { ManageTablesView(navController) }
+        composable(route = "UIWebView") { UIWebView(navController) }
     }
 }
