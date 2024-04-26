@@ -18,6 +18,7 @@
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
+            android:roundIcon="@mipmap/the_grid_logo_round"
             android:theme="@style/Theme.CollectionsStore"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
