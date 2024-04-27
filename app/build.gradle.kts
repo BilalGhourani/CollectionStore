@@ -70,6 +70,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
 
+    implementation ("androidx.compose.material:material-icons-core:1.0.5")
+    implementation ("androidx.compose.material:material-icons-extended:1.0.5")
+
+
     //Navigation
     implementation ("androidx.navigation:navigation-compose:2.7.7")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")

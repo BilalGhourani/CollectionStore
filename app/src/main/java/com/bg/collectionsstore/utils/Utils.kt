@@ -1,11 +1,13 @@
 package com.bg.collectionsstore.utils
 
 import android.content.Context
+import android.content.res.Configuration
 import android.print.PrintAttributes
 import android.print.PrintAttributes.MediaSize
 import android.print.PrintManager
 import android.webkit.WebView
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import com.bg.collectionsstore.App
@@ -106,7 +108,7 @@ object Utils {
         return MediaSize("POS Receipt", "POS Receipt", widthMicrometers, heightMicrometers)
     }
 
-    fun readHtmlFromAssets(fileName: String,context: Context): String {
+    fun readHtmlFromAssets(fileName: String, context: Context): String {
         return try {
             val inputStream = context.assets.open(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream))
@@ -127,4 +129,7 @@ object Utils {
         return htmlContent.replace("original_value", "new_value")
     }
 
+    fun isTablet(configuration: Configuration): Boolean {
+        return configuration.screenWidthDp > 840
+    }
 }

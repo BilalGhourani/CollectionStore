@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,13 +28,13 @@ fun InvoiceHeaderDetails(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().height(60.dp),
         horizontalArrangement = Arrangement.Absolute.Right
     ) {
         ElevatedButton(
             modifier = Modifier
-                .width(150.dp)
-                .height(60.dp)
+                .fillMaxHeight()
+                .weight(1f)
                 .padding(3.dp, 5.dp, 5.dp, 5.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Blue),
             onClick = { }
@@ -43,13 +44,35 @@ fun InvoiceHeaderDetails(
 
         ElevatedButton(
             modifier = Modifier
-                .width(150.dp)
-                .height(60.dp)
+                .fillMaxHeight()
+                .weight(1f)
                 .padding(3.dp, 5.dp, 5.dp, 5.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Blue),
             onClick = { }
         ) {
             Text("Add Customer")
+        }
+
+        ElevatedButton(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f)
+                .padding(3.dp, 5.dp, 5.dp, 5.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Blue),
+            onClick = { }
+        ) {
+            Text("Pay")
+        }
+
+        ElevatedButton(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f)
+                .padding(3.dp, 5.dp, 5.dp, 5.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Blue),
+            onClick = { navController?.navigateUp() }
+        ) {
+            Text("Back")
         }
     }
 }

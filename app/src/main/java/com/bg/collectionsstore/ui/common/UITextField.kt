@@ -37,7 +37,6 @@ fun UITextField(
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
             .height(80.dp)
     ) {
 

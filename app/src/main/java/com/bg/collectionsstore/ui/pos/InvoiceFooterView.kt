@@ -16,27 +16,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
 import com.bg.collectionsstore.ui.theme.Blue
+import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
 import com.bg.collectionsstore.utils.Utils
 
 @Composable
-fun InvoiceFooterDetails(
+fun InvoiceFooterView(
     navController: NavController? = null,
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.wrapContentWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier.wrapContentWidth()
     ) {
         Column(
             modifier = Modifier
-                .weight(.6f)
+                .weight(1f)
                 .wrapContentHeight()
-                .padding(5.dp),
-            horizontalAlignment = Alignment.Start
+                .padding(5.dp)
         ) {
             Row(
                 modifier = Modifier.wrapContentWidth(),
@@ -82,34 +82,20 @@ fun InvoiceFooterDetails(
                 Text(text = "USD")
             }
 
-            ElevatedButton(
+            SearchableDropdownMenu(
+                items = Utils.listOfItems.toMutableList(),
                 modifier = Modifier
-                    .width(150.dp)
-                    .height(70.dp)
                     .padding(10.dp, 15.dp, 10.dp, 5.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                onClick = { }
-            ) {
-                Text("Pay")
+                label = "Search Items",
+            ) { item ->
             }
 
-            ElevatedButton(
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(70.dp)
-                    .padding(10.dp, 5.dp, 10.dp, 5.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                onClick = { navController?.navigateUp() }
-            ) {
-                Text("Back")
-            }
         }
         Column(
             modifier = Modifier
-                .weight(.4f)
+                .weight(1f)
                 .wrapContentHeight()
-                .padding(5.dp),
-            horizontalAlignment = Alignment.End
+                .padding(5.dp)
         ) {
             Row(
                 modifier = Modifier.wrapContentWidth(),
@@ -152,24 +138,20 @@ fun InvoiceFooterDetails(
             }
 
             SearchableDropdownMenu(
-                items = Utils.listOfItems.toMutableList(),
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(70.dp)
-                    .padding(10.dp, 15.dp, 10.dp, 5.dp),
-                label = "Search Items",
-            ) { item ->
-            }
-
-            SearchableDropdownMenu(
                 items = Utils.categories.toMutableList(),
                 modifier = Modifier
-                    .width(300.dp)
-                    .height(70.dp)
                     .padding(10.dp, 15.dp, 10.dp, 5.dp),
                 label = "Customer Search",
             ) { item ->
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InvoiceFooterViewPreview() {
+    CollectionsStoreTheme {
+        InvoiceFooterView()
     }
 }

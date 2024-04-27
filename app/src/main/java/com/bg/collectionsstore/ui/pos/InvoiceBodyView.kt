@@ -1,5 +1,9 @@
 package com.bg.collectionsstore.ui.pos
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,11 +18,13 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.bg.collectionsstore.model.InvoiceItemModel
@@ -26,13 +32,14 @@ import com.bg.collectionsstore.ui.common.SearchableDropdownMenu
 import com.bg.collectionsstore.ui.theme.Blue
 import com.bg.collectionsstore.utils.Utils
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun InvoiceBodyDetails(
     navController: NavController? = null,
     modifier: Modifier = Modifier
 ) {
+    val header = InvoiceItemModel("Item", "Count", "Price", "Dis%", "Tax", "Tax1", "Tax2", "Amount")
     val invoiceItems = listOf(
-        InvoiceItemModel("Item", "Count", "Price", "Dis%", "Tax", "Tax1", "Tax2", "Amount"),
         InvoiceItemModel("Chicken", "1", "150.00", "0.0", "0.0", "0.0", "0.0", "150.00"),
         InvoiceItemModel("Salad", "1", "150.00", "0.0", "0.0", "0.0", "0.0", "150.00"),
         InvoiceItemModel("Champo", "1", "150.00", "0.0", "0.0", "0.0", "0.0", "150.00"),
@@ -46,11 +53,22 @@ fun InvoiceBodyDetails(
 
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues( 4.dp)
+        contentPadding = PaddingValues(0.dp)
     ) {
-        invoiceItems.forEach { invoiceItemModel ->
+        stickyHeader {
+            InvoiceItem(
+                modifier = modifier.height(50.dp).background(color = Color.LightGray),
+                item = header,
+                isHeader = true
+            )
+        }
+        invoiceItems.forEachIndexed { index, invoiceItemModel ->
             item {
-                InvoiceItem(invoiceItemModel)
+                val color = if (index % 2 == 0) Color.White else Color.LightGray
+                InvoiceItem(
+                    modifier = modifier.height(40.dp).background(color = color),
+                    item = invoiceItemModel
+                )
             }
         }
     }
