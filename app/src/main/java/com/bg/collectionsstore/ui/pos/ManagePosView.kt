@@ -79,7 +79,7 @@ fun ManagePosView(
                         navController = navController,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f)
+                            .weight(.1f)
                     )
 
                     // Border stroke configuration
@@ -89,7 +89,7 @@ fun ManagePosView(
                         navController = navController,
                         modifier = Modifier
                             .wrapContentWidth()
-                            .weight(1f)
+                            .weight(.7f)
                             .border(borderStroke)
                     )
 
@@ -97,7 +97,7 @@ fun ManagePosView(
                         navController = navController,
                         modifier = Modifier
                             .wrapContentWidth()
-                            .weight(1f)
+                            .weight(.2f)
                     )
                 }
             }
