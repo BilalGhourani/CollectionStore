@@ -28,8 +28,8 @@ class App : Application() {
     private fun initFirebase() {
         // Initialize Firebase only once (preferably in onCreate)
         val options: FirebaseOptions = FirebaseOptions.Builder()
-            .setApplicationId("1:337880577447:android:df872fadb85e7c5333b282")
-            .setApiKey("AIzaSyBwQvBrUzAwdwaAQIQY6kB77XM4kxf7tdQ")
+            .setApplicationId("1:337880577447:web:eb482f077635d5cf33b282")
+            .setApiKey("AIzaSyDSh65g8EqvGeyOviwCKmJh4jFD2iXQhYk")
             .setProjectId("grids-app-8a2b7")
             .setDatabaseUrl("https://grids-app-8a2b7-default-rtdb.europe-west1.firebasedatabase.app")
             .build()

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     kotlin("kapt")
     id ("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -96,8 +97,10 @@ dependencies {
     //firebase
     implementation ("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     api ("com.google.firebase:firebase-messaging:23.4.1")
-    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-analytics")
+
 
     // Glide images
     implementation (libs.compose.glide)

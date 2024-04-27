@@ -16,7 +16,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -25,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.bg.collectionsstore.ui.common.UIBottomSheet
 import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
 import com.bg.collectionsstore.utils.Utils
 
@@ -34,6 +40,9 @@ fun ManagePosView(
     navController: NavController? = null,
     modifier: Modifier = Modifier
 ) {
+    var showEditBottomSheet by remember { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+    var showCashBottomSheet by remember { mutableStateOf(false) }
     CollectionsStoreTheme {
         Scaffold(
             topBar = {
@@ -59,11 +68,11 @@ fun ManagePosView(
             }
         ) {
 
-            if (Utils.isTablet(LocalConfiguration.current)) {
+            /*if (Utils.isTablet(LocalConfiguration.current)) {
                 // Compose your UI for tablets
             } else {
                 // Compose your UI for phones or other non-tablet devices
-            }
+            }*/
             Surface(
                 modifier = modifier
                     .wrapContentWidth()
@@ -101,6 +110,11 @@ fun ManagePosView(
                     )
                 }
             }
+        }
+    }
+    if (showEditBottomSheet) {
+        UIBottomSheet(composable = { EditInvoiceHeaderView() }, isBottomSheetVisible = showEditBottomSheet, sheetState =bottomSheetState) {
+
         }
     }
 }

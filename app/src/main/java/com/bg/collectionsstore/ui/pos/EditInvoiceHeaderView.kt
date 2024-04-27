@@ -50,7 +50,9 @@ import com.bg.collectionsstore.ui.theme.Blue
 import com.bg.collectionsstore.ui.theme.CollectionsStoreTheme
 
 @Composable
-fun EditInvoiceHeaderView() {
+fun EditInvoiceHeaderView(
+    modifier: Modifier=Modifier
+) {
     val rDiscount1FocusRequester = remember { FocusRequester() }
     val rDiscount2FocusRequester = remember { FocusRequester() }
     val discount1FocusRequester = remember { FocusRequester() }
@@ -69,7 +71,7 @@ fun EditInvoiceHeaderView() {
     var invoiceNote by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)

@@ -12,7 +12,7 @@ import com.bg.collectionsstore.ui.theme.White
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UIBottomSheet(
-    composable: Composable,
+    composable: @Composable() () -> Unit,
     isBottomSheetVisible: Boolean,
     sheetState: SheetState,
     onDismiss: () -> Unit

@@ -73,18 +73,24 @@ class UserRepositoryImpl(
             .get()
             .addOnSuccessListener { result ->
                 CoroutineScope(Dispatchers.IO).launch {
-                    for (document in result) {
-                        val obj = document.toObject(User::class.java)
-                        if (!obj.userId.isNullOrEmpty()) {
-                            obj.userDocumentId = document.id
-                            callback?.onSuccess(obj)
-                            return@launch
+                    if (result.size() > 0) {
+                        for (document in result) {
+                            val obj = document.toObject(User::class.java)
+                            if (!obj.userId.isNullOrEmpty()) {
+                                obj.userDocumentId = document.id
+                                callback?.onSuccess(obj)
+                                return@launch
+                            }
                         }
+                    } else {
+                        callback?.onFailure(
+                            "Username or Password are incorrect!"
+                        )
                     }
                 }
             }.addOnFailureListener { exception ->
                 callback?.onFailure(
-                    exception.message ?: "Network error! Can't get users from remote."
+                    exception.message ?: "Network error! Can't get users from remote!"
                 )
             }
     }
